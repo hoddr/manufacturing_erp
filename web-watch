@@ -1,0 +1,5 @@
+#!/bin/bash
+# script to watch all html, css, js static source files for
+# changes and rebuild for prototyping
+
+find web/src/ | entr ./web-build

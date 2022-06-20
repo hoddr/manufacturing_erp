@@ -1,0 +1,12 @@
+#!/bin/bash
+
+ssh -t erp "/bin/bash -s << EOF
+  pg_dump -d erp --clean --no-owner > erp.sql
+EOF"
+
+scp erp:~/erp.sql ./erp.sql
+mv ./erp.sql "C:/Users/erp/documents/office_scripts/erp_backups/$(date -I).sql"
+
+ssh -t erp "/bin/bash -s << EOF
+  rm erp.sql
+EOF"

@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width: device-width", initial-scale=1>
+    <title>Home - Sheet Metal ERP</title>
+    <link rel="stylesheet" type="text/css" href="<<BASE_URL>>/css/main.css?<<CACHE>>" />
+    <link rel="icon" type="image/x-icon" href="<<BASE_URL>>/favicon.ico" />
+  </head>
+  <body>
+    <div id="navbar" class="header flex f-row f-wrap f-center">
+    </div>
+
+    <div id="sidebar" class="sidebar flex f-col f-center">
+    </div>
+
+    <div class="content">
+      <div class="pinfo flex f-row f-wrap f-center">
+        <h1>ERP - HOME</h1>
+      </div>
+
+      <div class="body">
+        <h1>Data reports</h1>
+
+        <div id="d_sub_membrain" class="subview" style="display: flex;">
+          <form id="f_membrain" autocomplete="off">
+            <div class="flex f-wrap fill-90">
+              <div class="col-2">
+                <label for="f_start">Start Date</label>
+                <input type="date" id="f_start" name="start" required min="2021-01-01" />
+              </div>
+
+              <div class="col-2">
+                <label for="f_end">End Date</label>
+                <input type="date" id="f_end" name="end" required min="2021-01-01" />
+              </div>
+            </div>
+
+            <hr class="border-light" />
+            <input class="toggle" type="submit" value="Retrieve Membrain sales information" onclick="getMembrainData(event);" />
+            <input class="toggle submit2" type="submit" value="Retrieve detailed sales data" onclick="getDetailedSalesData(event);" />
+            <input class="toggle submit3" type="submit" value="Retrieve build assemblies data" onclick="getBuildAssemblyData(event);" />
+            <input class="toggle submit4" type="submit" value="Retrieve CC sales data" onclick="getCCSalesData(event);" />
+          </form>
+        </div>
+
+        <div id="cc_modal" class="modal">
+          <span id="cc_span" class="closeModal">&times;</span>
+          <h2 class="modalHeader">CC Sales Summary</h2>
+          <div id="cc_body" class="modalBody"></div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
+
+<script type="text/javascript" src="<<BASE_URL>>/js/main.js?<<CACHE>>"></script>
+<script type="text/javascript" src="<<BASE_URL>>/js/api.js?<<CACHE>>"></script>
+<script type="text/javascript" src="<<BASE_URL>>/js/main_view.js?<<CACHE>>"></script>
+<script src="https://kit.fontawesome.com/2f925bff07.js" crossorigin="anonymous"></script>

@@ -1,0 +1,65 @@
+#!/bin/bash
+
+# teardown for tests
+# runs down-migrations to revert test db to base state
+# meant to be run from top source-dir ONLY
+
+export ERP_PB_DBNAME="erp_test"
+
+psql --dbname=$ERP_PB_DBNAME \
+     --quiet \
+     --file=migrations/down/19_purchase_orders_tweaks.sql
+psql --dbname=$ERP_PB_DBNAME \
+     --quiet \
+     --file=migrations/down/18_order_complete_flag.sql
+psql --dbname=$ERP_PB_DBNAME \
+     --quiet \
+     --file=migrations/down/17_user_permissions.sql
+psql --dbname=$ERP_PB_DBNAME \
+     --quiet \
+     --file=migrations/down/16_mult_cust_list.sql
+psql --dbname=$ERP_PB_DBNAME \
+     --quiet \
+     --file=migrations/down/15_progressive_billing_support.sql
+psql --dbname=$ERP_PB_DBNAME \
+     --quiet \
+     --file=migrations/down/14_customer_discounts.sql
+psql --dbname=$ERP_PB_DBNAME \
+     --quiet \
+     --file=migrations/down/13_assembly_overhaul.sql
+psql --dbname=$ERP_PB_DBNAME \
+     --quiet \
+     --file=migrations/down/12_more_cats.sql
+psql --dbname=$ERP_PB_DBNAME \
+     --quiet \
+     --file=migrations/down/11_more_markup_types.sql
+psql --dbname=$ERP_PB_DBNAME \
+     --quiet \
+     --file=migrations/down/10_feedback_complaints.sql
+psql --dbname=$ERP_PB_DBNAME \
+     --quiet \
+     --file=migrations/down/9_warm_air_stock.sql
+psql --dbname=$ERP_PB_DBNAME \
+     --quiet \
+     --file=migrations/down/8_cam_data_changes.sql
+psql --dbname=$ERP_PB_DBNAME \
+     --quiet \
+     --file=migrations/down/7_pricing_lists.sql
+psql --dbname=$ERP_PB_DBNAME \
+     --quiet \
+     --file=migrations/down/6_line_item_length.sql
+psql --dbname=$ERP_PB_DBNAME \
+     --quiet \
+     --file=migrations/down/5_categories.sql
+psql --dbname=$ERP_PB_DBNAME \
+     --quiet \
+     --file=migrations/down/4_project_sections.sql
+psql --dbname=$ERP_PB_DBNAME \
+     --quiet \
+     --file=migrations/down/3_markup_rates.sql
+psql --dbname=$ERP_PB_DBNAME \
+     --quiet \
+     --file=migrations/down/2_users_tokens.sql
+psql --dbname=$ERP_PB_DBNAME \
+     --quiet \
+     --file=migrations/down/1_setup.sql 

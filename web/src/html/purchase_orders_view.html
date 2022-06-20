@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width: device-width", initial-scale=1>
+    <title>PURCHASE ORDERS - ERP</title>
+    <link rel="stylesheet" type="text/css" href="<<BASE_URL>>/css/main.css?<<CACHE>>" />
+    <link rel="icon" type="image/x-icon" href="<<BASE_URL>>/favicon.ico" />
+  </head>
+  <body>
+    <div id="navbar" class="header flex f-row f-wrap f-center"></div>
+    <div id="sidebar" class="sidebar flex f-col f-center"></div>
+
+    <div class="content">
+      <div class="pinfo flex f-row f-wrap f-center">
+        <h1>ERP - PURCHASE ORDERS</h1>
+        <div class="flex f-wrap f-left">
+          <div class="controls col-1">
+            <button class="toggle" onclick="mainOpen();">Main view</button>
+          </div>
+          <div class="controls col-1">
+            <button class="toggle" onclick="updateListQS(listPOs, event);">(?) Update query</button>
+          </div>
+          <div class="controls col-1">
+            <button class="toggle" onclick="addPOOpen();">(+) Add purchase order</button>
+          </div>
+          <div class="controls col-1">
+            <button class="toggle" onclick="toggleShowClosedFlag(event);">Show/hide closed POs</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="body">
+        <div id="t_purchaseOrders" style="display: none;">
+          <div class="subview">
+            <form id="f_pag_form" autocomplete="off">
+              <div class="flex f-wrap fill-90">
+                <div class="col-4">
+                  <label for="qs_search">Search (on *Columns only)</label>
+                  <input type="text" id="qs_search" name="search" value="" />
+                </div>
+
+                <div class="col-4">
+                  <label for="qs_limit">#/page</label>
+                  <input type="number" id="qs_limit" name="limit" min="1" step="1" required value="100" />
+                </div>
+
+                <div class="col-4">
+                  <label for="qs_offset">Page #</label>
+                  <input type="number" id="qs_offset" name="offset" min="1" step="1" required value="1" />
+                </div>
+              </div>
+              <input type="submit" style="display: none;" value="(?) Update query" />
+            </form>
+          </div>
+          <table>
+            <caption id="cap_purchaseOrders">Purchase Orders Info</caption>
+            <thead>
+              <tr>
+                <th>*Number</th>
+                <th>*Vendor</th>
+                <th>Expected Receipt Date</th>
+                <th>Receipt Date</th>
+                <th>In QB?</th>
+                <th>Is sent?</th>
+                <th>Is received?</th>
+                <th>Prices verified?</th>
+                <th>Prices merged?</th>
+                <th>Is closed?</th>
+                <th>Is back order?</th>
+                <th>Edit</th>
+                <th>Delete</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+
+        <div id="d_sub_poAdd_form" class="subview" style="display: none;">
+          <form id="f_purchase_order" autocomplete="off">
+            <div class="flex f-wrap fill-90">
+              <div class="col-3">
+                <label for="f_number">PO # (match next QB #)</label>
+                <input type="text" id="f_number" name="number" required />
+              </div>
+
+              <div class="col-3">
+                <label for="f_vendor">Vendor</label>
+                <input type="text" id="f_vendor" name="vendor" required list="list_item_vendors" />
+              </div>
+
+              <div class="col-3">
+                <label for="f_expectedReceiptDate">Expected Receipt Date</label>
+                <input type="date" id="f_expectedReceiptDate" name="expectedReceiptDate" required min="2021-01-01" />
+              </div>
+            </div>
+
+            <div class="flex f-wrap fill-90">
+              <div class="col-2">
+                <label for="f_memo">Memo/General notes</label>
+                <textarea id="f_memo" name="memo" required maxlength="512" cols="50" rows="10"></textarea>
+              </div>
+            </div>
+
+            <input type="hidden" id="f_vendorId" name="vendorId" />
+            <input type="hidden" id="f_vendorName" name="vendorName" />
+            <input type="hidden" id="f_vendorCompany" name="vendorCompany" />
+
+            <hr class="border-light" />
+            <input class="toggle" type="submit" value="Add purchase order" />
+            <datalist id="list_item_vendors"></datalist>
+          </form>
+        </div>
+
+        <div id="d_sub_poEdit_form" class="subview" style="display: none;">
+          <form id="f_purchase_order_edit" autocomplete="off">
+            <div class="flex f-wrap fill-90">
+              <div class="col-3">
+                <label for="f_numberEdit">PO # (adjust only if needed)</label>
+                <input type="text" id="f_numberEdit" name="number" required />
+              </div>
+
+              <div class="col-3">
+                <label for="f_vendorEdit">Vendor</label>
+                <input type="text" id="f_vendorEdit" name="vendor" required list="list_item_vendorsEdit" />
+              </div>
+
+              <div class="col-3">
+                <label for="f_expectedReceiptDateEdit">Expected Receipt Date</label>
+                <input type="date" id="f_expectedReceiptDateEdit" name="expectedReceiptDate" required min="2021-01-01" />
+              </div>
+            </div>
+
+            <div class="flex f-wrap fill-90">
+              <div class="col-2">
+                <label for="f_memoEdit">Memo/General notes</label>
+                <textarea id="f_memoEdit" name="memo" required maxlength="512" cols="50" rows="10"></textarea>
+              </div>
+            </div>
+
+            <input type="hidden" id="f_idEdit" name="id" />
+            <input type="hidden" id="f_vendorIdEdit" name="vendorId" />
+            <input type="hidden" id="f_vendorNameEdit" name="vendorName" />
+            <input type="hidden" id="f_vendorCompanyEdit" name="vendorCompany" />
+
+            <hr class="border-light" />
+            <input class="toggle" type="submit" value="Edit purchase order" />
+            <datalist id="list_item_vendorsEdit"></datalist>
+          </form>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
+
+<script type="text/javascript" src="<<BASE_URL>>/js/main.js?<<CACHE>>"></script>
+<script type="text/javascript" src="<<BASE_URL>>/js/api.js?<<CACHE>>"></script>
+<script type="text/javascript" src="<<BASE_URL>>/js/purchase_orders_view.js?<<CACHE>>"></script>
+<script src="https://kit.fontawesome.com/2f925bff07.js" crossorigin="anonymous"></script>

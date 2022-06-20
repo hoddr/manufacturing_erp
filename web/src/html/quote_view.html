@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width: device-width", initial-scale=1>
+    <title>QUOTES - ERP</title>
+    <link rel="stylesheet" type="text/css" href="<<BASE_URL>>/css/main.css?<<CACHE>>" />
+    <link rel="icon" type="image/x-icon" href="<<BASE_URL>>/favicon.ico" />
+  </head>
+  <body>
+    <div id="navbar" class="header flex f-row f-wrap f-center">
+    </div>
+
+    <div id="sidebar" class="sidebar flex f-col f-center">
+    </div>
+
+    <div class="content">
+      <div class="pinfo flex f-row f-wrap f-center">
+        <h1>ERP - QUOTE SUBVIEW</h1>
+        <div class="flex f-wrap f-left">
+          <div class="controls col-1">
+            <button class="toggle" onclick="mainOpen();">Main view</button>
+          </div>
+          <div class="controls col-1">
+            <button class="toggle" onclick="createProjectOpen();">(+) Create project</button>
+          </div>
+          <div class="controls col-1">
+            <button class="toggle" onclick="createOrderOpen();">(+) Create order (FL)</button>
+          </div>
+          <div class="controls col-1">
+            <button class="toggle" onclick="getQuoteReport();">Generate quote</button>
+          </div>
+          <div class="controls col-1">
+            <button class="toggle" onclick="getProjectEstimate();">Generate project estimate</button>
+          </div>
+          <div class="controls col-1">
+            <button class="toggle" onclick="getQuoteDetails();">Get detailed line items</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="body">
+        <table id="t_quote">
+          <caption id="cap_quote">Quote Info</caption>
+          <thead>
+            <tr>
+              <th>Type</th>
+              <th>Number</th>
+              <th>PO/Job Name</th>
+              <th>Project Number</th>
+              <th>Order Number</th>
+              <th>Customer</th>
+              <th>Set Price</th>
+              <th>Line Item Total</th>
+              <th>Entered</th>
+              <th>Line Items</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+
+        <table id="t_lineItems" style="display: none;">
+          <caption id="cap_lineItems">Line Items</caption>
+          <thead>
+            <tr>
+              <th>Id</th>
+              <th>Description</th>
+              <th>Category</th>
+              <th>Quantity</th>
+              <th>Price</th>
+              <th>Weight (lbs)</th>
+              <th>Is Extra</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+
+        <div id="d_sub_qtop_form" class="subview" style="display: none;">
+          <form id="f_quote_to_project" autocomplete="off">
+            <div class="flex f-wrap fill-90">
+              <h3 id="cap_toProject"></h3>
+            </div>
+
+            <div class="flex f-wrap fill-90">
+              <div class="col-2">
+                <label for="f_appId">Project Number</label>
+                <input type="number" id="f_appId" name="appId" required />
+              </div>
+
+              <div class="col-2">
+                <label for="f_po">Project PO</label>
+                <input type="text" id="f_po" name="po" required />
+              </div>
+            </div>
+
+            <div class="flex f-wrap fill-90">
+              <div class="col-2">
+                <label for="f_name">Project Name</label>
+                <input type="text" id="f_name" name="name" required />
+              </div>
+
+              <div class="col-2">
+                <label for="f_totalEstimatedWeight">Estimated Weight (lbs)</label>
+                <input type="number" id="f_totalEstimatedWeight" name="totalEstimatedWeight" required
+                                                      min="0.0" step="0.1" />
+              </div>
+            </div>
+
+            <hr class="border-light" />
+            <input class="toggle" type="submit" value="Create project from quote" />
+          </form>
+        </div>
+
+        <div id="d_sub_qtoo_form" class="subview" style="display: none;">
+          <form id="f_quote_to_order" autocomplete="off">
+            <div class="flex f-wrap fill-90">
+              <h3 id="cap_toOrder"></h3>
+            </div>
+
+            <div class="flex f-wrap fill-90">
+              <div class="col-2">
+                <label for="f_ordNumber">Order Number</label>
+                <input type="text" id="f_ordNumber" name="ordNumber" required />
+              </div>
+
+              <div class="col-2">
+                <label for="f_ordPo">Order PO</label>
+                <input type="text" id="f_ordPo" name="ordPo" required />
+              </div>
+            </div>
+
+            <hr class="border-light" />
+            <input class="toggle" type="submit" value="Create order from quote" />
+          </form>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
+
+<script type="text/javascript" src="<<BASE_URL>>/js/main.js?<<CACHE>>"></script>
+<script type="text/javascript" src="<<BASE_URL>>/js/api.js?<<CACHE>>"></script>
+<script type="text/javascript" src="<<BASE_URL>>/js/quote_view.js?<<CACHE>>"></script>
+<script src="https://kit.fontawesome.com/2f925bff07.js" crossorigin="anonymous"></script>

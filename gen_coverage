@@ -1,0 +1,19 @@
+#!/bin/bash
+# generates code coverage report (runs test suite as part of this)
+
+# this removes the tix file as it seems to clash with running the test suite directly
+# which gives detailed test breakdown
+rm -f erpTests.tix
+rm -f erpServer.tix
+
+export PB_DBNAME="erp_test"
+
+echo -e "Scaffolding test database..."
+./tests/scaffold
+
+cabal test \
+  --test-show-details=direct \
+  --test-option=--format=specdoc
+
+echo -e "Tearing down test database..."
+./tests/teardown

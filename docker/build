@@ -1,0 +1,15 @@
+#!/bin/bash
+
+rm -rf updated_src
+mkdir -p updated_src/src
+mkdir -p updated_src/tests
+mkdir -p updated_src/app
+cp ../erp.cabal updated_src/.
+cp cabal.project.prod updated_src/cabal.project.local
+cp ../Setup.hs updated_src/.
+cp -r ../src/* updated_src/src/.
+cp -r ../tests/* updated_src/tests/.
+cp -r ../app/* updated_src/app/.
+cp ../LICENSE updated_src/.
+sudo docker build -f Dockerfile.build -t erp:latest .
+rm -rf updated_src

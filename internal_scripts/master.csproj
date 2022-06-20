@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net5.0</TargetFramework>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Interop.QBFC14">
+      <HintPath>C:/Program Files (x86)/Common Files/Intuit/QuickBooks/Interop.QBFC14.dll</HintPath>
+    </Reference>
+    <PackageReference Include="CsvHelper" Version="19.0.0" />
+  </ItemGroup>
+</Project>

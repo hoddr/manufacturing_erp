@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width: device-width", initial-scale=1>
+    <title>USERS - ERP</title>
+    <link rel="stylesheet" type="text/css" href="<<BASE_URL>>/css/main.css?<<CACHE>>" />
+    <link rel="icon" type="image/x-icon" href="<<BASE_URL>>/favicon.ico" />
+  </head>
+  <body>
+    <div id="navbar" class="header flex f-row f-wrap f-center">
+    </div>
+
+    <div id="sidebar" class="sidebar flex f-col f-center">
+    </div>
+
+    <div class="content">
+      <div class="pinfo flex f-row f-wrap f-center">
+        <h1>ERP - USERS</h1>
+        <div class="flex f-wrap f-left">
+          <div class="controls col-1">
+            <button class="toggle" onclick="mainOpen();">Main view</button>
+          </div>
+          <div class="controls col-1">
+            <button class="toggle" onclick="addUserOpen();">(+) Add new user</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="body">
+        <table id="t_users">
+          <caption id="cap_users">Users Master List</caption>
+          <thead>
+            <tr>
+              <th>Id</th>
+              <th>First</th>
+              <th>Last</th>
+              <th>Username</th>
+              <th>Role</th>
+              <th>Edit</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+
+        <!-- add form -->
+        <div id="d_sub_add_form" class="subview" style="display: none;">
+          <form id="f_add_user" autocomplete="off">
+            <div class="flex f-wrap fill-90">
+              <div class="col-3">
+                <label for="f_first">First name</label>
+                <input type="text" id="f_first" name="first" required />
+              </div>
+
+              <div class="col-3">
+                <label for="f_last">Last name</label>
+                <input type="text" id="f_last" name="last" required />
+              </div>
+
+              <div class="col-3">
+                <label for="f_username">Username (unique)</label>
+                <input type="text" id="f_username" name="username" required />
+              </div>
+            </div>
+
+            <div class="flex f-wrap fill-90">
+              <div class="col-2">
+                <label for="f_password">Password</label>
+                <input type="text" id="f_password" name="password" required />
+              </div>
+
+              <div class="col-2">
+                <label for="f_role">Role</label>
+                <input type="text" id="f_role" name="role" required list="dl_role" />
+              </div>
+            </div>
+
+            <input type="hidden" id="f_userid" name="id" />
+
+            <hr class="border-light" />
+            <input class="toggle" type="submit" value="Add user" />
+
+            <datalist id="dl_role">
+              <option id="li_admin" value="ADMIN">ADMIN</option>
+              <option id="li_office" value="OFFICE">OFFICE</option>
+            </datalist>
+          </form>
+        </div>
+
+        <!-- edit form -->
+        <div id="d_sub_edit_form" class="subview" style="display: none;">
+          <form id="f_edit_user" autocomplete="off">
+            <div class="flex f-wrap fill-90">
+              <div class="col-3">
+                <label for="f_firstEdit">First name</label>
+                <input type="text" id="f_firstEdit" name="first" required />
+              </div>
+
+              <div class="col-3">
+                <label for="f_lastEdit">Last name</label>
+                <input type="text" id="f_lastEdit" name="last" required />
+              </div>
+
+              <div class="col-3">
+                <label for="f_usernameEdit">Username (unique)</label>
+                <input type="text" id="f_usernameEdit" name="username" required />
+              </div>
+            </div>
+
+            <div class="flex f-wrap fill-90">
+              <div class="col-2">
+                <label for="f_passwordEdit">Password (only to change)</label>
+                <input type="text" id="f_passwordEdit" name="password" />
+              </div>
+
+              <div class="col-2">
+                <label for="f_roleEdit">Role</label>
+                <input type="text" id="f_roleEdit" name="role" required list="dl_roleEdit" />
+              </div>
+            </div>
+
+            <input type="hidden" id="f_useridEdit" name="id" />
+
+            <hr class="border-light" />
+            <input class="toggle" type="submit" value="Edit user" />
+
+            <datalist id="dl_roleEdit">
+              <option id="li_admin" value="ADMIN">ADMIN</option>
+              <option id="li_office" value="OFFICE">OFFICE</option>
+            </datalist>
+          </form>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
+
+<script type="text/javascript" src="<<BASE_URL>>/js/main.js?<<CACHE>>"></script>
+<script type="text/javascript" src="<<BASE_URL>>/js/api.js?<<CACHE>>"></script>
+<script type="text/javascript" src="<<BASE_URL>>/js/users_view.js?<<CACHE>>"></script>
+<script src="https://kit.fontawesome.com/2f925bff07.js" crossorigin="anonymous"></script>

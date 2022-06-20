@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width: device-width", initial-scale=1>
+    <title>PROJECTS - ERP</title>
+    <link rel="stylesheet" type="text/css" href="<<BASE_URL>>/css/main.css?<<CACHE>>" />
+    <link rel="icon" type="image/x-icon" href="<<BASE_URL>>/favicon.ico" />
+  </head>
+  <body>
+    <div id="navbar" class="header flex f-row f-wrap f-center">
+    </div>
+
+    <div id="sidebar" class="sidebar flex f-col f-center">
+    </div>
+
+    <div class="content">
+      <div class="pinfo flex f-row f-wrap f-center">
+        <h1>ERP - PROJECTS</h1>
+        <div class="flex f-wrap f-left">
+          <div class="controls col-1">
+            <button class="toggle" onclick="mainOpen();">Main view</button>
+          </div>
+          <div class="controls col-1">
+            <button class="toggle" onclick="updateListQS(listProjects, event);">(?) Update query</button>
+          </div>
+          <div class="controls col-1">
+            <button class="toggle" onclick="getStatusReport(event);">Status report</button>
+          </div>
+          <div class="controls col-1">
+            <button class="toggle" onclick="toggleShowHideActive(event);">Toggle Active/Inactive</button>
+          </div>
+          <div class="controls col-1">
+            <button class="toggle" onclick="manageNonCompleteProjectOrders(event);">Manage open orders</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="body">
+        <div id="t_projects" style="display: none;">
+          <div class="subview">
+            <form id="f_pag_form" autocomplete="off">
+              <div class="flex f-wrap fill-90">
+                <div class="col-4">
+                  <label for="qs_search">Search (on *Columns only)</label>
+                  <input type="text" id="qs_search" name="search" value="" />
+                </div>
+
+                <div class="col-4">
+                  <label for="qs_limit">#/page</label>
+                  <input type="number" id="qs_limit" name="limit" min="1" step="1" required value="50" />
+                </div>
+
+                <div class="col-4">
+                  <label for="qs_offset">Page #</label>
+                  <input type="number" id="qs_offset" name="offset" min="1" step="1" required value="1" />
+                </div>
+              </div>
+              <input type="submit" style="display: none;" value="Update query" />
+            </form>
+          </div>
+          <table id="t_projects">
+            <caption id="cap_projects">Projects Master List</caption>
+            <thead>
+              <tr>
+                <th>*App Id</th>
+                <th>*Quote Number</th>
+                <th>*Name</th>
+                <th>*PO</th>
+                <th>*Customer</th>
+                <th>Active?</th>
+                <th>Edit</th>
+                <th>Delete</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+
+        <!-- edit form -->
+        <div id="d_sub_edit_form" class="subview" style="display: none;">
+          <form id="f_edit_project" autocomplete="off">
+            <div class="flex f-wrap fill-90">
+              <div class="col-3">
+                <label for="f_nameEdit">Project name</label>
+                <input type="text" id="f_nameEdit" name="name" required />
+              </div>
+
+              <div class="col-3">
+                <label for="f_appIdEdit">App Id</label>
+                <input type="text" id="f_appIdEdit" name="appId" required />
+              </div>
+
+              <div class="col-3">
+                <label for="f_poEdit">PO</label>
+                <input type="text" id="f_poEdit" name="po" required />
+              </div>
+            </div>
+
+            <div class="flex f-wrap fill-90">
+              <div class="col-2">
+                <label for="f_customerEdit">Customer</label>
+                <input type="text" id="f_customerEdit" name="customer" required list="list_customersEdit" />
+              </div>
+
+              <div class="col-2">
+                <label for="f_totalEstimatedWeightEdit">Tot. Est. Weight (lbs)</label>
+                <input type="number" id="f_totalEstimatedWeightEdit" name="totalEstimatedWeight"
+                                                                 required min="0.00" step="0.01" />
+              </div>
+            </div>
+
+            <input type="hidden" id="f_idEdit" name="id" />
+            <input type="hidden" id="f_quoteIdEdit" name="quoteId" />
+            <input type="hidden" id="f_quoteNumberEdit" name="quoteNumber" />
+            <input type="hidden" id="f_customerIdEdit" name="customerId" />
+            <input type="hidden" id="f_customerNameEdit" name="customerName" />
+            <input type="hidden" id="f_customerCompanyEdit" name="customerCompany" />
+            <input type="hidden" id="f_customerTypeEdit" name="customerType" />
+            <input type="hidden" id="f_customerMarkupEdit" name="customerMarkup" />
+
+            <hr class="border-light" />
+            <input class="toggle" type="submit" value="Edit project" />
+
+            <datalist id="list_customersEdit"></datalist>
+          </form>
+        </div>
+
+        <div id="d_sub_extras" class="subview-no-height h-40" style="display: none;">
+          <form id="f_add_extra" autocomplete="off">
+            <div class="flex f-wrap fill-90">
+              <div class="col-2">
+                <label for="f_category">Category</label>
+                <input type="text" id="f_category" name="category" list="list_category" required />
+              </div>
+              <div class="col-2">
+                <label for="f_nameCheck">Name to check (optional):</label>
+                <input type="text" id="f_nameCheck" name="nameCheck" />
+              </div>
+            </div>
+
+            <div class="flex f-wrap fill-90">
+              <div class="col-3">
+                <label for="f_purchase">Select purchase item:</label>
+                <input type="text" id="f_purchase" name="purchase" list="list_purchase" />
+              </div>
+              <div class="col-3">
+                <label for="f_fabrication">Select fabrication item:</label>
+                <input type="text" id="f_fabrication" name="fabrication" list="list_fabrication" />
+              </div>
+            </div>
+
+            <input type="hidden" id="f_categoryId" name="categoryId">
+            <input type="hidden" id="f_categoryName" name="categoryName">
+
+            <hr class="border-light" />
+            <input class="toggle submit" type="submit" onclick="addExtra(event);" value="(1): Append extra" />
+            <input class="toggle submit2" type="submit" onclick="sendExtras(event);"
+              value="(2): Send extras" />
+
+            <datalist id="list_fabrication"></datalist>
+            <datalist id="list_purchase"></datalist>
+            <datalist id="list_category"></datalist>
+          </form>
+        </div>
+
+        <table id="t_project_extras" style="display: none;">
+          <caption id="cap_project_extras">Project Extras</caption>
+          <thead>
+            <tr>
+              <th>Id</th>
+              <th>Category Name</th>
+              <th>Name to Check</th>
+              <th>Remove</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+  </body>
+</html>
+
+<script type="text/javascript" src="<<BASE_URL>>/js/main.js?<<CACHE>>"></script>
+<script type="text/javascript" src="<<BASE_URL>>/js/api.js?<<CACHE>>"></script>
+<script type="text/javascript" src="<<BASE_URL>>/js/extras.js?<<CACHE>>"></script>
+<script type="text/javascript" src="<<BASE_URL>>/js/projects_view.js?<<CACHE>>"></script>
+<script src="https://kit.fontawesome.com/2f925bff07.js" crossorigin="anonymous"></script>

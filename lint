@@ -1,0 +1,4 @@
+#!/bin/bash
+
+hlint src/. -j
+hlint tests/. -j

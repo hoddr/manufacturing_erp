@@ -1,0 +1,53 @@
+#!/bin/bash
+
+# can use to build for prod
+# ERP_PB_BASE_URL="https://erp.com"
+
+CACHE_BUSTER=$(runhaskell cache_buster_gen.hs)
+cd web/
+rm -rf temp
+mkdir -p temp/html
+mkdir -p temp/js
+sed -r "s|<<BASE_URL>>|$ERP_PB_BASE_URL|g; s|<<CACHE>>|$CACHE_BUSTER|g" src/html/main_view.html > temp/html/main_view.html
+sed -r "s|<<BASE_URL>>|$ERP_PB_BASE_URL|g; s|<<CACHE>>|$CACHE_BUSTER|g" src/html/assemblies_view.html > temp/html/assemblies_view.html
+sed -r "s|<<BASE_URL>>|$ERP_PB_BASE_URL|g; s|<<CACHE>>|$CACHE_BUSTER|g" src/html/customers_view.html > temp/html/customers_view.html
+sed -r "s|<<BASE_URL>>|$ERP_PB_BASE_URL|g; s|<<CACHE>>|$CACHE_BUSTER|g" src/html/inventory_view.html > temp/html/inventory_view.html
+sed -r "s|<<BASE_URL>>|$ERP_PB_BASE_URL|g; s|<<CACHE>>|$CACHE_BUSTER|g" src/html/purchase_items_view.html > temp/html/purchase_items_view.html
+sed -r "s|<<BASE_URL>>|$ERP_PB_BASE_URL|g; s|<<CACHE>>|$CACHE_BUSTER|g" src/html/fab_items_view.html > temp/html/fab_items_view.html
+sed -r "s|<<BASE_URL>>|$ERP_PB_BASE_URL|g; s|<<CACHE>>|$CACHE_BUSTER|g" src/html/materials_view.html > temp/html/materials_view.html
+sed -r "s|<<BASE_URL>>|$ERP_PB_BASE_URL|g; s|<<CACHE>>|$CACHE_BUSTER|g" src/html/orders_view.html > temp/html/orders_view.html
+sed -r "s|<<BASE_URL>>|$ERP_PB_BASE_URL|g; s|<<CACHE>>|$CACHE_BUSTER|g" src/html/projects_view.html > temp/html/projects_view.html
+sed -r "s|<<BASE_URL>>|$ERP_PB_BASE_URL|g; s|<<CACHE>>|$CACHE_BUSTER|g" src/html/vendors_view.html > temp/html/vendors_view.html
+sed -r "s|<<BASE_URL>>|$ERP_PB_BASE_URL|g; s|<<CACHE>>|$CACHE_BUSTER|g" src/html/users_view.html > temp/html/users_view.html
+sed -r "s|<<BASE_URL>>|$ERP_PB_BASE_URL|g; s|<<CACHE>>|$CACHE_BUSTER|g" src/html/login.html > temp/html/login.html
+sed -r "s|<<BASE_URL>>|$ERP_PB_BASE_URL|g; s|<<CACHE>>|$CACHE_BUSTER|g" src/html/quotes_view.html > temp/html/quotes_view.html
+sed -r "s|<<BASE_URL>>|$ERP_PB_BASE_URL|g; s|<<CACHE>>|$CACHE_BUSTER|g" src/html/pricing_view.html > temp/html/pricing_view.html
+sed -r "s|<<BASE_URL>>|$ERP_PB_BASE_URL|g; s|<<CACHE>>|$CACHE_BUSTER|g" src/html/project_view.html > temp/html/project_view.html
+sed -r "s|<<BASE_URL>>|$ERP_PB_BASE_URL|g; s|<<CACHE>>|$CACHE_BUSTER|g" src/html/quote_view.html > temp/html/quote_view.html
+sed -r "s|<<BASE_URL>>|$ERP_PB_BASE_URL|g; s|<<CACHE>>|$CACHE_BUSTER|g" src/html/pricing_lists_view.html > temp/html/pricing_lists_view.html
+sed -r "s|<<BASE_URL>>|$ERP_PB_BASE_URL|g; s|<<CACHE>>|$CACHE_BUSTER|g" src/html/pricing_list_view.html > temp/html/pricing_list_view.html
+sed -r "s|<<BASE_URL>>|$ERP_PB_BASE_URL|g; s|<<CACHE>>|$CACHE_BUSTER|g" src/html/feedback_complaints_view.html > temp/html/feedback_complaints_view.html
+sed -r "s|<<BASE_URL>>|$ERP_PB_BASE_URL|g; s|<<CACHE>>|$CACHE_BUSTER|g" src/html/progressive_view.html > temp/html/progressive_view.html
+sed -r "s|<<BASE_URL>>|$ERP_PB_BASE_URL|g; s|<<CACHE>>|$CACHE_BUSTER|g" src/html/user_view.html > temp/html/user_view.html
+sed -r "s|<<BASE_URL>>|$ERP_PB_BASE_URL|g; s|<<CACHE>>|$CACHE_BUSTER|g" src/html/purchase_orders_view.html > temp/html/purchase_orders_view.html
+sed -r "s|<<BASE_URL>>|$ERP_PB_BASE_URL|g; s|<<CACHE>>|$CACHE_BUSTER|g" src/html/purchase_order_view.html > temp/html/purchase_order_view.html
+sed -r "s|<<BASE_URL>>|$ERP_PB_BASE_URL|g; s|<<CACHE>>|$CACHE_BUSTER|g" src/html/mat_purchases_view.html > temp/html/mat_purchases_view.html
+sed -r "s|<<BASE_URL>>|$ERP_PB_BASE_URL|g; s|<<CACHE>>|$CACHE_BUSTER|g" src/html/error_log_view.html > temp/html/error_log_view.html
+sed -r "s|<<BASE_URL>>|$ERP_PB_BASE_URL|g; s|<<CACHE>>|$CACHE_BUSTER|g" src/html/address_view.html > temp/html/address_view.html
+sed -r "s|<<BASE_URL>>|$ERP_PB_BASE_URL|g; s|<<CACHE>>|$CACHE_BUSTER|g" src/html/cc_quotes_view.html > temp/html/cc_quotes_view.html
+sed -r "s|<<BASE_URL>>|$ERP_PB_BASE_URL|g; s|<<CACHE>>|$CACHE_BUSTER|g" src/html/cc_quote_view.html > temp/html/cc_quote_view.html
+
+cp src/js/*.js temp/js/.
+# these have <<BASE_URL>> that needs to be replaced
+sed -r "s|<<BASE_URL>>|$ERP_PB_BASE_URL|g" src/js/api.js > temp/js/api.js
+sed -r "s|<<BASE_URL>>|$ERP_PB_BASE_URL|g" src/js/main.js > temp/js/main.js
+sed -r "s|<<BASE_URL>>|$ERP_PB_BASE_URL|g" src/js/projects_view.js > temp/js/projects_view.js
+sed -r "s|<<BASE_URL>>|$ERP_PB_BASE_URL|g" src/js/quotes_view.js > temp/js/quotes_view.js
+sed -r "s|<<BASE_URL>>|$ERP_PB_BASE_URL|g" src/js/pricing_lists_view.js > temp/js/pricing_lists_view.js
+sed -r "s|<<BASE_URL>>|$ERP_PB_BASE_URL|g" src/js/users_view.js > temp/js/users_view.js
+sed -r "s|<<BASE_URL>>|$ERP_PB_BASE_URL|g" src/js/purchase_orders_view.js > temp/js/purchase_orders_view.js
+sed -r "s|<<BASE_URL>>|$ERP_PB_BASE_URL|g" src/js/cc_quotes_view.js > temp/js/cc_quotes_view.js
+
+./node_modules/.bin/grunt
+rm -rf temp
+cd ..

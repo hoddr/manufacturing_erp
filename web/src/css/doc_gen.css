@@ -1,0 +1,151 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --small-font-size: 0.75rem;
+  --bg-table: #cbcbcb;
+}
+
+.small-font {
+  font-size: var(--small-font-size);
+}
+
+body {
+  margin: 1.0rem;
+}
+
+.gcont {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  grid-gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.lal {
+  display: flex;
+  justify-content: left;
+  flex-wrap: wrap;
+}
+
+.ral {
+  display: flex;
+  justify-content: right;
+  flex-wrap: wrap;
+  text-align: right;
+}
+
+.talign-right {
+  text-align: right;
+}
+
+.talign-center {
+  text-align: center;
+}
+
+.col {
+  flex-direction: column;
+}
+
+.row {
+  flex-direction: row;
+}
+
+.h10 {
+  height: 10%;
+}
+
+.h15 {
+  height: 15%;
+}
+
+.h40 {
+  height: 40%;
+}
+
+.logo {
+  height: 85px;
+  width: auto;
+}
+
+.gcont-items {
+  display: grid;
+  grid-template-columns: 1fr 2fr 3fr 1fr 1fr;
+}
+
+.gcont-po-items {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 4fr 1fr 1fr;
+}
+
+.gcont-pricing-list-items {
+  display: grid;
+  grid-template-columns: 2fr 3fr 1fr;
+}
+
+.gcont-c-c-items {
+  display: grid;
+  grid-template-columns: 1fr 3fr 3fr 3fr 2fr 2fr;
+}
+
+.gcont-footer {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.gcont-est-summary {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.brd-bot {
+  border-bottom: 1px solid black;
+}
+
+.brd-right {
+  border-right: 1px solid black;
+}
+
+.brd-left {
+  border-left: 1px solid black;
+}
+
+.brd-top {
+  border-top: 1px solid black;
+}
+
+.gcont-items > * {
+  padding: 0.20rem;
+}
+
+.gcont-po-items > * {
+  padding: 0.20rem;
+}
+
+.line:nth-child(12n+1), .line:nth-child(12n+2), .line:nth-child(12n+3), .line:nth-child(12n+4), .line:nth-child(12n+5), .line:nth-child(12n+6) {
+  background-color: var(--bg-table);
+}
+
+.qline:nth-child(10n+1), .qline:nth-child(10n+2), .qline:nth-child(10n+3), .qline:nth-child(10n+4), .qline:nth-child(10n+5) {
+  background-color: var(--bg-table);
+}
+
+.plline:nth-child(6n+1), .plline:nth-child(6n+2), .plline:nth-child(6n+3) {
+  background-color: var(--bg-table);
+}
+
+.plline {
+  padding: 0.25rem;
+}
+
+.bgfill {
+  background-color: var(--bg-table);
+}
+
+@media print {
+  .page-break {
+    break-after: page;
+  }
+}

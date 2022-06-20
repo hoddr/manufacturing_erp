@@ -1,0 +1,286 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width: device-width", initial-scale=1>
+    <title>FEEDBACK COMPLAINTS - ERP</title>
+    <link rel="stylesheet" type="text/css" href="<<BASE_URL>>/css/main.css?<<CACHE>>" />
+    <link rel="icon" type="image/x-icon" href="<<BASE_URL>>/favicon.ico" />
+  </head>
+  <body>
+    <div id="navbar" class="no-print header flex f-row f-wrap f-center"></div>
+    <div id="sidebar" class="no-print sidebar flex f-col f-center"></div>
+
+    <div class="content">
+      <div class="no-print pinfo flex f-row f-wrap f-center">
+        <h1>ERP - FEEDBACK COMPLAINTS</h1>
+        <div class="flex f-wrap f-left">
+          <div class="controls col-1">
+            <button class="toggle" onclick="mainOpen();">Main view</button>
+          </div>
+          <div class="controls col-1">
+            <button class="toggle" onclick="updateListQS(listFeedbackComplaints, event);">(?) Update query</button>
+          </div>
+          <div class="controls col-1">
+            <button class="toggle" onclick="addFeedbackComplaintOpen();">(+) Add new complaint</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="body">
+        <div id="t_complaints" style="display: none;">
+          <div class="subview">
+            <form id="f_pag_form" autocomplete="off">
+              <div class="flex f-wrap fill-90">
+                <div class="col-4">
+                  <label for="qs_search">Search (on *Columns only)</label>
+                  <input type="text" id="qs_search" name="search" value="" />
+                </div>
+
+                <div class="col-4">
+                  <label for="qs_limit">#/page</label>
+                  <input type="number" id="qs_limit" name="limit" min="1" step="1" required value="25" />
+                </div>
+
+                <div class="col-4">
+                  <label for="qs_offset">Page #</label>
+                  <input type="number" id="qs_offset" name="offset" min="1" step="1" required value="1" />
+                </div>
+              </div>
+              <input type="submit" style="display: none;" value="Update query" />
+            </form>
+          </div>
+
+          <table>
+            <caption id="cap_complaints">Feedback Complaints Master List</caption>
+            <thead>
+              <tr>
+                <th>Id</th>
+                <th>*Order #</th>
+                <th>*Customer</th>
+                <th>*Assigned to</th>
+                <th>Date</th>
+                <th>Resolved?</th>
+                <th>App updated?</th>
+                <th>Record in 90?</th>
+                <th>Is R&D Valid?</th>
+                <th>Edit</th>
+                <th>Delete</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+
+        <!-- add form -->
+        <div id="d_sub_add_form" class="subview" style="display: none;">
+          <form id="f_add_form" autocomplete="off">
+            <div class="flex f-wrap fill-90">
+              <div class="col-3">
+                <label for="f_orderNumber">Order #</label>
+                <input type="text" id="f_orderNumber" name="orderNumber" required maxlength="6" />
+              </div>
+
+              <div class="col-3">
+                <label for="f_customer">Customer</label>
+                <input type="text" id="f_customer" name="customer" required list="list_customers" />
+              </div>
+
+              <div class="col-3">
+                <label for="f_occurrenceDate">Occurrence date</label>
+                <input type="date" id="f_occurrenceDate" name="occurrenceDate" required min="2021-01-01" />
+              </div>
+            </div>
+
+            <div class="flex f-wrap fill-90">
+              <div class="col-2">
+                <label for="f_user">Assigned to</label>
+                <input type="text" id="f_user" name="user" required list="list_users" />
+              </div>
+
+              <div class="col-2">
+                <label for="f_randdCost">R&D Cost ($)</label>
+                <input type="number" id="f_randdCost" name="randdCost" min="0.00" step="0.01" />
+              </div>
+            </div>
+
+            <div class="flex f-wrap fill-90">
+              <div class="col-2">
+                <label for="f_issueNote">Issue Description</label>
+                <textarea id="f_issueNote" name="issueNote" required maxlength="512" cols="50" rows="10"></textarea>
+              </div>
+            </div>
+
+            <div class="flex f-wrap fill-90">
+              <div class="col-2">
+                <label for="f_resolutionNote">Resolution Description</label>
+                <textarea id="f_resolutionNote" name="resolutionNote" maxlength="512" cols="50" rows="10"></textarea>
+              </div>
+            </div>
+
+            <div class="flex f-wrap fill-90">
+              <div class="col-4">
+                <label for="f_isResolved">Is resolved?</label>
+                <div class="controls">
+                  <button class="toggle" id="f_isResolvedButton" value="off">No</button>
+                </div>
+                <input type="checkbox" id="f_isResolved" name="isResolved" />
+              </div>
+
+              <div class="col-4">
+                <label for="f_isAppUpdated">Is app updated?</label>
+                <div class="controls">
+                  <button class="toggle" id="f_isAppUpdatedButton" value="off">No</button>
+                </div>
+                <input type="checkbox" id="f_isAppUpdated" name="isAppUpdated" />
+              </div>
+
+              <div class="col-4">
+                <label for="f_isRecordedIn90">Is recorded in 90?</label>
+                <div class="controls">
+                  <button class="toggle" id="f_isRecordedIn90Button" value="off">No</button>
+                </div>
+                <input type="checkbox" id="f_isRecordedIn90" name="isRecordedIn90" />
+              </div>
+
+              <div class="col-4">
+                <label for="f_isRandd">Is R&D valid?</label>
+                <div class="controls">
+                  <button class="toggle" id="f_isRanddButton" value="off">No</button>
+                </div>
+                <input type="checkbox" id="f_isRandd" name="isRandd" />
+              </div>
+            </div>
+
+            <input type="hidden" id="f_customerId" name="customerId" />
+            <input type="hidden" id="f_customerName" name="customerName" />
+            <input type="hidden" id="f_customerCompany" name="customerCompany" />
+            <input type="hidden" id="f_customerType" name="customerType" />
+            <input type="hidden" id="f_customerMarkup" name="customerMarkup" />
+            <input type="hidden" id="f_userId" name="userId" />
+            <input type="hidden" id="f_userFirst" name="userFirst" />
+            <input type="hidden" id="f_userLast" name="userLast" />
+            <input type="hidden" id="f_userUsername" name="userUsername" />
+            <input type="hidden" id="f_userRole" name="userRole" />
+
+            <hr class="border-light" />
+            <input class="toggle" type="submit" value="Add feedback complaint" />
+
+            <datalist id="list_customers"></datalist>
+            <datalist id="list_users"></datalist>
+          </form>
+        </div>
+
+        <!-- edit form -->
+        <div id="d_sub_edit_form" class="subview" style="display: none;">
+          <form id="f_edit_form" autocomplete="off">
+            <div class="flex f-wrap fill-90">
+              <div class="col-4">
+                <label for="f_orderNumberEdit">Order #</label>
+                <input type="text" id="f_orderNumberEdit" name="orderNumber" required maxlength="6" />
+              </div>
+
+              <div class="col-4">
+                <label for="f_customerEdit">Customer</label>
+                <input type="text" id="f_customerEdit" name="customer" required list="list_customersEdit" />
+              </div>
+
+              <div class="col-4">
+                <label for="f_occurrenceDateEdit">Occurrence date</label>
+                <input type="date" id="f_occurrenceDateEdit" name="occurrenceDate" required min="2021-01-01" />
+              </div>
+            </div>
+
+            <div class="flex f-wrap fill-90">
+              <div class="col-2">
+                <label for="f_userEdit">Assigned to</label>
+                <input type="text" id="f_userEdit" name="user" required list="list_usersEdit" />
+              </div>
+
+              <div class="col-2">
+                <label for="f_randdCostEdit">R&D Cost ($)</label>
+                <input type="number" id="f_randdCostEdit" name="randdCost" min="0.00" step="0.01" />
+              </div>
+            </div>
+
+            <div class="flex f-wrap fill-90">
+              <div class="col-2">
+                <label for="f_issueNoteEdit">Issue Description</label>
+                <textarea id="f_issueNoteEdit" name="issueNote" required maxlength="512" cols="50" rows="10"></textarea>
+              </div>
+
+              <div class="col-4">
+                <label for="f_displayId">Id # (fixed)</label>
+                <input type="text" id="f_displayId" name="displayId" />
+              </div>
+            </div>
+
+            <div class="flex f-wrap fill-90">
+              <div class="col-2">
+                <label for="f_resolutionNoteEdit">Resolution Description</label>
+                <textarea id="f_resolutionNoteEdit" name="resolutionNote" maxlength="512" cols="50" rows="10"></textarea>
+              </div>
+            </div>
+
+            <div class="flex f-wrap fill-90">
+              <div class="col-4">
+                <label for="f_isResolvedEdit">Is resolved?</label>
+                <div class="controls">
+                  <button class="toggle" id="f_isResolvedButtonEdit" value="off">No</button>
+                </div>
+                <input type="checkbox" id="f_isResolvedEdit" name="isResolved" />
+              </div>
+
+              <div class="col-4">
+                <label for="f_isAppUpdatedEdit">Is app updated?</label>
+                <div class="controls">
+                  <button class="toggle" id="f_isAppUpdatedButtonEdit" value="off">No</button>
+                </div>
+                <input type="checkbox" id="f_isAppUpdatedEdit" name="isAppUpdated" />
+              </div>
+
+              <div class="col-4">
+                <label for="f_isRecordedIn90Edit">Is recorded in 90?</label>
+                <div class="controls">
+                  <button class="toggle" id="f_isRecordedIn90ButtonEdit" value="off">No</button>
+                </div>
+                <input type="checkbox" id="f_isRecordedIn90Edit" name="isRecordedIn90" />
+              </div>
+
+              <div class="col-4">
+                <label for="f_isRanddEdit">Is R&D valid?</label>
+                <div class="controls">
+                  <button class="toggle" id="f_isRanddButtonEdit" value="off">No</button>
+                </div>
+                <input type="checkbox" id="f_isRanddEdit" name="isRandd" />
+              </div>
+            </div>
+
+            <input type="hidden" id="f_idEdit" name="id" />
+            <input type="hidden" id="f_customerIdEdit" name="customerId" />
+            <input type="hidden" id="f_customerNameEdit" name="customerName" />
+            <input type="hidden" id="f_customerCompanyEdit" name="customerCompany" />
+            <input type="hidden" id="f_customerTypeEdit" name="customerType" />
+            <input type="hidden" id="f_customerMarkupEdit" name="customerMarkup" />
+            <input type="hidden" id="f_userIdEdit" name="userId" />
+            <input type="hidden" id="f_userFirstEdit" name="userFirst" />
+            <input type="hidden" id="f_userLastEdit" name="userLast" />
+            <input type="hidden" id="f_userUsernameEdit" name="userUsername" />
+            <input type="hidden" id="f_userRoleEdit" name="userRole" />
+
+            <hr class="border-light" />
+            <input class="toggle" type="submit" value="Edit feedback complaint" />
+
+            <datalist id="list_customersEdit"></datalist>
+            <datalist id="list_usersEdit"></datalist>
+          </form>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
+
+<script type="text/javascript" src="<<BASE_URL>>/js/main.js?<<CACHE>>"></script>
+<script type="text/javascript" src="<<BASE_URL>>/js/api.js?<<CACHE>>"></script>
+<script type="text/javascript" src="<<BASE_URL>>/js/feedback_complaints_view.js?<<CACHE>>"></script>
+<script src="https://kit.fontawesome.com/2f925bff07.js" crossorigin="anonymous"></script>

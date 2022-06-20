@@ -1,0 +1,11 @@
+#!/bin/bash
+
+ssh -t erp "/bin/bash -s << EOFI
+  export HISTIGNORE='*sudo -S*'
+  cd /home/erp
+   echo \"$ERP_PB_PROD_PASS\" | sudo -S systemctl stop erp.service
+  rm -r dist-newstyle
+  mv temp dist-newstyle
+  ./makeRunnable
+  sudo systemctl start erp.service
+EOFI"

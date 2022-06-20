@@ -1,0 +1,10 @@
+dist-newstyle
+.ghc.environment.x86_64-linux-8.6.5
+.cabal-sandbox/
+cabal.project.local~
+dig_ocean_creds.txt
+storage
+prod_dist
+erpTests.tix
+erpServer.tix
+migrations/erp.sql

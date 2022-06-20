@@ -1,0 +1,20 @@
+{
+  "name": "minifier",
+  "version": "1.0.0",
+  "description": "Simple setup to minify js, css, and maybe html files for production",
+  "main": "index.js",
+  "repository": "https://github.com/hoddr/erp_manufacturer.git",
+  "author": "hoddr",
+  "license": "None",
+  "private": true,
+  "dependencies": {
+    "global": "^4.4.0",
+    "grunt-cli": "^1.3.2"
+  },
+  "devDependencies": {
+    "grunt": "^1.3.0",
+    "grunt-contrib-cssmin": "^3.0.0",
+    "grunt-contrib-htmlmin": "^3.1.0",
+    "grunt-terser": "^1.0.0"
+  }
+}

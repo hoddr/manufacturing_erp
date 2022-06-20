@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width: device-width", initial-scale=1>
+    <title>PURCHASE ORDER - ERP</title>
+    <link rel="stylesheet" type="text/css" href="<<BASE_URL>>/css/main.css?<<CACHE>>" />
+    <link rel="icon" type="image/x-icon" href="<<BASE_URL>>/favicon.ico" />
+  </head>
+  <body>
+    <div id="navbar" class="header flex f-row f-wrap f-center"></div>
+    <div id="sidebar" class="sidebar flex f-col f-center"></div>
+
+    <div class="content">
+      <div class="pinfo flex f-row f-wrap f-center">
+        <h1>ERP - PURCHASE ORDERS</h1>
+        <div class="flex f-wrap f-left">
+          <div class="controls col-1">
+            <button class="toggle" onclick="getPORfq();">Generate RFQ</button>
+          </div>
+          <div class="controls col-1">
+            <button class="toggle" onclick="getPOReport();">Generate PO</button>
+          </div>
+          <div class="controls col-1">
+            <button id="button_inQB" class="toggle-disabled" disabled onclick="confirmInQB(event);">1) In QB</button>
+          </div>
+
+          <div class="controls col-1">
+            <button id="button_sent" class="toggle-disabled" disabled onclick="confirmSendPO(event);">2) Sent</button>
+          </div>
+
+          <div class="controls col-1">
+            <button id="button_receive" class="toggle-disabled" disabled onclick="confirmReceivePO(event);">3a) Receive</button>
+          </div>
+
+          <div class="controls col-1">
+            <button id="button_verify" class="toggle-disabled" disabled onclick="confirmPriceVerified(event);">3b) Verify pricing</button>
+          </div>
+
+          <div class="controls col-1">
+            <button id="button_adjust" class="toggle-disabled" disabled onclick="confirmPriceAdjusted(event);">4) Merge pricing</button>
+          </div>
+
+          <div class="controls col-1">
+            <button id="button_close" class="toggle-disabled" disabled onclick="confirmClosePO(event);">5) Close</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="body">
+        <div id="d_sub_po_items" class="subview-no-height h-50" style="display: none;">
+          <form id="f_items" autocomplete="off">
+            <div class="flex f-wrap fill-90">
+              <div class="col-3">
+                <label for="f_material">Material</label>
+                <input type="text" id="f_material" name="material" list="list_material" required />
+              </div>
+
+              <div class="col-3">
+                <label for="f_matPurchase">Material Purchase Options</label>
+                <input type="text" id="f_matPurchase" name="matPurchase" list="list_matps" />
+              </div>
+
+              <div class="col-3">
+                <label for="f_purchase">Purchase Item</label>
+                <input type="text" id="f_purchase" name="purchase" list="list_purchase" required />
+              </div>
+            </div>
+
+            <div class="flex f-wrap fill-90">
+              <div class="col-4">
+                <label for="f_name">Name</label>
+                <input type="text" id="f_name" name="name" required />
+              </div>
+
+              <div class="col-4">
+                <label for="f_description">Description/Note</label>
+                <input type="text" id="f_description" name="description" />
+              </div>
+
+              <div class="col-4">
+                <label for="f_balanceCategory">Accounting Category (as needed)</label>
+                <input type="text" id="f_balanceCategory" name="balanceCategory" required />
+              </div>
+
+              <div class="col-4">
+                <label for="f_note">Note (optional)</label>
+                <input type="text" id="f_note" name="note" />
+              </div>
+            </div>
+
+            <div class="flex f-wrap fill-90">
+              <div class="col-4">
+                <label for="f_quantity">Quantity</label>
+                <input type="number" id="f_quantity" name="quantity" min="0.00" required />
+              </div>
+
+              <div class="col-4">
+                <label for="f_unitsPerQuantity">Units per quantity (per vendor, optional)</label>
+                <input type="number" id="f_unitsPerQuantity" name="unitsPerQuantity" min="0.00" required />
+              </div>
+
+              <div class="col-4">
+                <label for="f_purchasePriceEach">Price Each ($)</label>
+                <input type="number" id="f_purchasePriceEach" name="purchasePriceEach" min="0.0000" step="0.0001" required />
+              </div>
+
+              <div class="col-4">
+                <label for="f_leadTime">Lead time</label>
+                <input type="text" id="f_leadTime" name="leadTime" />
+              </div>
+            </div>
+
+            <input type="hidden" id="f_referenceId" name="referenceId" />
+            <input type="hidden" id="f_referenceType" name="referenceType" />
+
+            <hr class="border-light" />
+            <input class="toggle" type="submit" value="(1a): Set material" onclick="setMatAsCurr(event);" />
+            <input class="toggle submit2" type="submit" value="(1b): Set material purchase option" onclick="setMatPurchaseAsCurr(event);" />
+            <input class="toggle submit3" type="submit" value="(1): Set purchase item" onclick="setPurAsCurr(event);" />
+            <input id="but_submit" class="toggle submit4" type="submit" value="(2): Add PO line item" onclick="addPOItem(event);" />
+
+            <datalist id="list_purchase"></datalist>
+            <datalist id="list_material"></datalist>
+            <datalist id="list_matps"></datalist>
+          </form>
+        </div>
+        <table id="t_items">
+          <caption id="cap_items">Purchase Orders Items</caption>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>VPN</th>
+              <th>Description</th>
+              <th>Quantity</th>
+              <th>Units per Quantity</th>
+              <th>Purchase Price Each ($)</th>
+              <th>Reference Type</th>
+              <th>Accounting Category</th>
+              <th>Note</th>
+              <th>Lead Time</th>
+              <th>Edit</th>
+              <th>Delete</th>
+              <th>Qty to Back Order</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+        <input id="input_backOrder" class="toggle submit" type="submit" onclick="confirmBackOrder(event);" value="Create back order" />
+
+      </div>
+    </div>
+  </body>
+</html>
+
+<script type="text/javascript" src="<<BASE_URL>>/js/main.js?<<CACHE>>"></script>
+<script type="text/javascript" src="<<BASE_URL>>/js/api.js?<<CACHE>>"></script>
+<script type="text/javascript" src="<<BASE_URL>>/js/purchase_order_view.js?<<CACHE>>"></script>
+<script src="https://kit.fontawesome.com/2f925bff07.js" crossorigin="anonymous"></script>

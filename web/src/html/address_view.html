@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width: device-width", initial-scale=1>
+    <title>ADDRESSES - ERP</title>
+    <link rel="stylesheet" type="text/css" href="<<BASE_URL>>/css/main.css?<<CACHE>>" />
+    <link rel="icon" type="image/x-icon" href="<<BASE_URL>>/favicon.ico" />
+  </head>
+  <body>
+    <div id="navbar" class="header flex f-row f-wrap f-center"></div>
+    <div id="sidebar" class="sidebar flex f-col f-center"></div>
+
+    <div class="content">
+      <div class="pinfo flex f-row f-wrap f-center">
+        <h1>ERP - ADDRESSES</h1>
+        <div class="flex f-wrap f-left">
+          <div class="controls col-1">
+            <button class="toggle" onclick="mainOpen();">Main view</button>
+          </div>
+          <div class="controls col-1">
+            <button class="toggle" onclick="updateListQS(listAddresses, event);">(?) Update query</button>
+          </div>
+          <div class="controls col-1">
+            <button class="toggle" onclick="addAddressOpen();">(+) Add address</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="body">
+        <div id="t_addresses" style="display: none;">
+          <div class="subview">
+            <form id="f_pag_form" autocomplete="off">
+              <div class="flex f-wrap fill-90">
+                <div class="col-4">
+                  <label for="qs_search">Search (on *Columns only)</label>
+                  <input type="text" id="qs_search" name="search" value="" />
+                </div>
+
+                <div class="col-4">
+                  <label for="qs_limit">#/page</label>
+                  <input type="number" id="qs_limit" name="limit" min="1" step="1" required value="100" />
+                </div>
+
+                <div class="col-4">
+                  <label for="qs_offset">Page #</label>
+                  <input type="number" id="qs_offset" name="offset" min="1" step="1" required value="1" />
+                </div>
+              </div>
+              <input type="submit" style="display: none;" value="(?) Update query" />
+            </form>
+          </div>
+          <table id="t_addresses">
+            <caption id="cap_addresses">Addresses</caption>
+            <thead>
+              <tr>
+                <th>Id</th>
+                <th>*Street</th>
+                <th>*Street2</th>
+                <th>*City</th>
+                <th>*State</th>
+                <th>*Zip</th>
+                <th>Edit</th>
+                <th>Delete</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+
+        <div id="d_sub_add_form" class="subview" style="display: none;">
+          <form id="f_add_address" autocomplete="off">
+            <div class="flex f-wrap fill-90">
+              <div class="col-2">
+                <label for="f_street">Street (line 1)</label>
+                <input type="text" id="f_street" name="street" required />
+              </div>
+              <div class="col-2">
+                <label for="f_street2">Street (line 2 -> Unit, Bldng, PO)</label>
+                <input type="text" id="f_street2" name="street2" />
+              </div>
+            </div>
+
+            <div class="flex f-wrap fill-90">
+              <div class="col-3">
+                <label for="f_city">City</label>
+                <input type="text" id="f_city" name="city" required />
+              </div>
+
+              <div class="col-3">
+                <label for="f_state">State</label>
+                <input type="text" id="f_state" name="state" required />
+              </div>
+
+              <div class="col-3">
+                <label for="f_zip">Zip</label>
+                <input type="text" id="f_zip" name="zip" required />
+              </div>
+            </div>
+            <hr class="border-light" />
+            <input class="toggle" type="submit" value="Add address" />
+          </form>
+        </div>
+
+        <div id="d_sub_edit_form" class="subview" style="display: none;">
+          <form id="f_edit_address" autocomplete="off">
+            <div class="flex f-wrap fill-90">
+              <div class="col-2">
+                <label for="f_streetEdit">Street (line 1)</label>
+                <input type="text" id="f_streetEdit" name="street" required />
+              </div>
+              <div class="col-2">
+                <label for="f_street2Edit">Street (line 2 -> Unit, Bldng, PO)</label>
+                <input type="text" id="f_street2Edit" name="street2" />
+              </div>
+            </div>
+
+            <div class="flex f-wrap fill-90">
+              <div class="col-3">
+                <label for="f_cityEdit">City</label>
+                <input type="text" id="f_cityEdit" name="city" required />
+              </div>
+
+              <div class="col-3">
+                <label for="f_stateEdit">State</label>
+                <input type="text" id="f_stateEdit" name="state" required />
+              </div>
+
+              <div class="col-3">
+                <label for="f_zipEdit">Zip</label>
+                <input type="text" id="f_zipEdit" name="zip" required />
+              </div>
+            </div>
+            <input type="hidden" id="f_idEdit" name="id" />
+
+            <hr class="border-light" />
+            <input class="toggle" type="submit" value="Edit address" />
+          </form>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
+
+<script type="text/javascript" src="<<BASE_URL>>/js/main.js?<<CACHE>>"></script>
+<script type="text/javascript" src="<<BASE_URL>>/js/api.js?<<CACHE>>"></script>
+<script type="text/javascript" src="<<BASE_URL>>/js/address_view.js?<<CACHE>>"></script>
+<script src="https://kit.fontawesome.com/2f925bff07.js" crossorigin="anonymous"></script>

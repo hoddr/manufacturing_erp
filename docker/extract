@@ -1,0 +1,9 @@
+#!/bin/bash
+
+mkdir -p prod_dist
+sudo docker run \
+  --rm \
+  --mount type=bind,source="$(pwd)"/prod_dist,target=/out \
+  erp:latest \
+  cp -r dist-newstyle /out/.
+sudo chown -R $USER prod_dist/dist-newstyle

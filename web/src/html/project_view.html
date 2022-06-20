@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width: device-width", initial-scale=1>
+    <title>PROJECTS - ERP</title>
+    <link rel="stylesheet" type="text/css" href="<<BASE_URL>>/css/main.css?<<CACHE>>" />
+    <link rel="icon" type="image/x-icon" href="<<BASE_URL>>/favicon.ico" />
+  </head>
+  <body>
+    <div id="navbar" class="header flex f-row f-wrap f-center">
+    </div>
+
+    <div id="sidebar" class="sidebar flex f-col f-center">
+    </div>
+
+    <div class="content">
+      <div class="pinfo flex f-row f-wrap f-center">
+        <h1>ERP - PROJECT</h1>
+        <div class="flex f-wrap f-left">
+          <div class="controls col-1">
+            <button class="toggle" onclick="mainOpen();">Main view</button>
+          </div>
+          <div class="controls col-1">
+            <button class="toggle" onclick="showProjectTracking(event);">Project tracking</button>
+          </div>
+          <div class="controls col-1">
+            <button class="toggle" onclick="openLineItemsAll();">See all line items</button>
+          </div>
+          <div class="controls col-1">
+            <button class="toggle" onclick="getProjectLineItemDetails(event);">Generate line item report</button>
+          </div>
+          <div class="controls col-1">
+            <button class="toggle" onclick="getCategoryTotals();">Get category totals</button>
+          </div>
+          <div class="controls col-1">
+            <button class="toggle" onclick="getCurrentToBillExtras();">List extras to bill</button>
+          </div>
+          <div class="controls col-1">
+            <button class="toggle" onclick="markOrdersAsBilled(event);">Close open billing</button>
+          </div>
+          <div id="div_add_section" class="controls col-1">
+            <button class="toggle" onclick="addSectionOpen(event);">(+) Add section</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="body">
+        <table id="t_project">
+          <caption id="cap_project">Project Info</caption>
+          <thead>
+            <tr>
+              <th>Quote Number</th>
+              <th>App Id</th>
+              <th>Name</th>
+              <th>PO</th>
+              <th>Customer</th>
+              <th>Est. ($)</th>
+              <th>Fab. ($)</th>
+              <th>Billed ($)</th>
+              <th>Est. Weight (lbs)</th>
+              <th>Cur. Weight (lbs)</th>
+              <th>% Completion</th>
+              <th>Active?</th>
+              <th>Sections</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+
+        <table id="t_orders" style="display: none;">
+          <caption id="cap_orders">Project Orders</caption>
+          <thead>
+            <tr>
+              <th>Id</th>
+              <th>Type</th>
+              <th>Number</th>
+              <th>PO</th>
+              <th>Customer</th>
+              <th>Total</th>
+              <th>Entered</th>
+              <th>Billed</th>
+              <th>Line Items</th>
+              <th>Info</th>
+              <th>Tracking</th>
+              <th>Edit</th>
+              <th>Delete</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+
+        <table id="t_lineItems" style="display: none;">
+          <caption id="cap_lineItems">Line Items</caption>
+          <thead>
+            <tr>
+              <th>Id</th>
+              <th>Description</th>
+              <th>Category</th>
+              <th>Quantity</th>
+              <th>Price</th>
+              <th>Weight (lbs)</th>
+              <th>Is Extra</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+
+        <table id="t_sections" style="display: none;">
+          <caption id="cap_sections">Project Sections</caption>
+          <thead>
+            <tr>
+              <th>Id</th>
+              <th>Name</th>
+              <th>Est. Cost ($)</th>
+              <th>Fabricated ($)</th>
+              <th>Billed ($)</th>
+              <th>Est. Weight (lbs)</th>
+              <th>Current Weight</th>
+              <th>% Weight Completion</th>
+              <th>Tracking</th>
+              <th>Orders</th>
+              <th>Edit</th>
+              <th>Delete</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+
+        <!-- add section form -->
+        <div id="d_sub_section_form" class="subview" style="display: none;">
+          <form id="f_section" autocomplete="off">
+            <div class="flex f-wrap fill-90">
+              <div class="col-3">
+                <label for="f_sectionName">Section name</label>
+                <input type="text" id="f_sectionName" name="sectionName" required />
+              </div>
+              <div class="col-3">
+                <label for="f_sectionEstPrice">Est. price ($)</label>
+                <input type="number" id="f_sectionEstPrice" name="sectionEstPrice" required min="0.00"
+                  step="0.01" />
+              </div>
+              <div class="col-3">
+                <label for="f_sectionEstWeight">Est. weight (lbs)</label>
+                <input type="number" id="f_sectionEstWeight" name="sectionEstWeight" required min="0.00"
+                  step="0.1" />
+              </div>
+            </div>
+
+            <hr class="border-light" />
+
+            <input class="toggle" type="submit" value="Add section" />
+          </form>
+        </div>
+
+        <!-- edit section form -->
+        <div id="d_sub_section_edit_form" class="subview" style="display: none;">
+          <form id="f_section_edit" autocomplete="off">
+            <div class="flex f-wrap fill-90">
+              <div class="col-3">
+                <label for="f_sectionNameEdit">Section name</label>
+                <input type="text" id="f_sectionNameEdit" name="sectionName" required />
+              </div>
+              <div class="col-3">
+                <label for="f_sectionEstPriceEdit">Est. price ($)</label>
+                <input type="number" id="f_sectionEstPriceEdit" name="sectionEstPrice" required min="0.00"
+                  step="0.01" />
+              </div>
+              <div class="col-3">
+                <label for="f_sectionEstWeightEdit">Est. weight (lbs)</label>
+                <input type="number" id="f_sectionEstWeightEdit" name="sectionEstWeight" required min="0.00"
+                  step="0.1" />
+              </div>
+            </div>
+
+            <input type="hidden" id="f_sectionIdEdit" name="sectionId" />
+            <input type="hidden" id="f_projectIdEdit" name="projectId" />
+
+            <hr class="border-light" />
+
+            <input class="toggle" type="submit" value="Edit section" />
+          </form>
+        </div>
+
+        <table id="t_orders_section" style="display: none;">
+          <caption id="cap_orders_section">Project Section Orders</caption>
+          <thead>
+            <tr>
+              <th>Type</th>
+              <th>Number</th>
+              <th>PO</th>
+              <th>Customer</th>
+              <th>Total</th>
+              <th>Entered</th>
+              <th>Complete</th>
+              <th>Complete At</th>
+              <th>Billed</th>
+              <th>Billed At</th>
+              <th>Inv. #</th>
+              <th>Line Items</th>
+              <th>Info</th>
+              <th>Tracking</th>
+              <th>Swap Section</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+
+        <!-- swap section form -->
+        <div id="d_sub_swap_section_form" class="subview" style="display: none;">
+          <form id="f_section_swap" autocomplete="off">
+            <div class="flex f-wrap fill-90">
+              <div class="col-2">
+                <label for="f_sectionSwap">Swap to section with name:</label>
+                <input type="text" id="f_sectionSwap" name="sectionSwapName" required list="list_section_swaps" />
+              </div>
+            </div>
+
+            <hr class="border-light" />
+
+            <input class="toggle" type="submit" value="Swap section" />
+            <datalist id="list_section_swaps"></datalist>
+          </form>
+        </div>
+
+      </div>
+
+      <div id="tracking_modal" class="modal">
+        <span id="tracking_span" class="closeModal">&times;</span>
+        <h2 class="modalHeader">Tracking Totals</h2>
+        <div id="tracking_body" class="modalBody"></div>
+      </div>
+
+      <div id="totals_modal" class="modal">
+        <span id="totals_span" class="closeModal">&times;</span>
+        <h2 class="modalHeader">Totals by Category</h2>
+        <div id="totals_body" class="modalBody"></div>
+      </div>
+
+      <div id="extras_modal" class="modal">
+        <span id="extras_span" class="closeModal">&times;</span>
+        <h2 class="modalHeader">Extras to Bill in Current Cycle</h2>
+        <div id="extras_body" class="modalBody"></div>
+      </div>
+    </div>
+  </body>
+</html>
+
+<script type="text/javascript" src="<<BASE_URL>>/js/main.js?<<CACHE>>"></script>
+<script type="text/javascript" src="<<BASE_URL>>/js/api.js?<<CACHE>>"></script>
+<script type="text/javascript" src="<<BASE_URL>>/js/project_view.js?<<CACHE>>"></script>
+<script src="https://kit.fontawesome.com/2f925bff07.js" crossorigin="anonymous"></script>

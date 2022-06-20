@@ -1,0 +1,6 @@
+FROM erp_base:latest
+WORKDIR /build
+COPY updated_src/ /build/
+RUN pwd \
+  && /root/.ghcup/bin/cabal update \
+  && /root/.ghcup/bin/cabal build

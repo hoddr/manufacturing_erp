@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width: device-width", initial-scale=1>
+    <title>PRICING LISTS - ERP</title>
+    <link rel="stylesheet" type="text/css" href="<<BASE_URL>>/css/main.css?<<CACHE>>" />
+    <link rel="icon" type="image/x-icon" href="<<BASE_URL>>/favicon.ico" />
+  </head>
+  <body>
+    <div id="navbar" class="header flex f-row f-wrap f-center"></div>
+    <div id="sidebar" class="sidebar flex f-col f-center"></div>
+
+    <div class="content">
+      <div class="pinfo flex f-row f-wrap f-center">
+        <h1>ERP - PRICING LISTS</h1>
+        <div class="flex f-wrap f-left">
+          <div class="controls col-1">
+            <button class="toggle" onclick="mainOpen();">Main view</button>
+          </div>
+          <div class="controls col-1">
+            <button class="toggle" onclick="addPricingListOpen(event);">(+) Add pricing list</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="body">
+        <table id="t_pricingLists">
+          <caption id="cap_pricingLists">Pricing Lists Info</caption>
+          <thead>
+            <tr>
+              <th>Id</th>
+              <th>Description</th>
+              <th>Effective As Of</th>
+              <th>Effective Until</th>
+              <th>Edit</th>
+              <th>Delete</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+
+        <div id="d_sub_plAdd_form" class="subview" style="display: none;">
+          <form id="f_pricing_list" autocomplete="off">
+            <div class="flex f-wrap fill-90">
+              <div class="col-3">
+                <label for="f_description">Description</label>
+                <input type="text" id="f_description" name="description" required />
+              </div>
+
+              <div class="col-3">
+                <label for="f_effectiveAsOf">Effective start date</label>
+                <input type="date" id="f_effectiveAsOf" name="effectiveAsOf" required min="2021-01-01" />
+              </div>
+
+              <div class="col-3">
+                <label for="f_effectiveUntil">Effective end date</label>
+                <input type="date" id="f_effectiveUntil" name="effectiveUntil" required min="2021-01-02" />
+              </div>
+            </div>
+
+            <hr class="border-light" />
+            <input class="toggle" type="submit" value="Add pricing list" />
+          </form>
+        </div>
+
+        <div id="d_sub_plEdit_form" class="subview" style="display: none;">
+          <form id="f_pricing_list_edit" autocomplete="off">
+            <div class="flex f-wrap fill-90">
+              <div class="col-3">
+                <label for="f_descriptionEdit">Description</label>
+                <input type="text" id="f_descriptionEdit" name="description" required />
+              </div>
+
+              <div class="col-3">
+                <label for="f_effectiveAsOfEdit">Effective start date</label>
+                <input type="date" id="f_effectiveAsOfEdit" name="effectiveAsOf" required min="2021-01-01" />
+              </div>
+
+              <div class="col-3">
+                <label for="f_effectiveUntilEdit">Effective end date</label>
+                <input type="date" id="f_effectiveUntilEdit" name="effectiveUntil" required min="2021-01-02" />
+              </div>
+            </div>
+
+            <input type="hidden" id="f_idEdit" name="id" />
+
+            <hr class="border-light" />
+            <input class="toggle" type="submit" value="Edit pricing list" />
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </body>
+</html>
+
+<script type="text/javascript" src="<<BASE_URL>>/js/main.js?<<CACHE>>"></script>
+<script type="text/javascript" src="<<BASE_URL>>/js/api.js?<<CACHE>>"></script>
+<script type="text/javascript" src="<<BASE_URL>>/js/pricing_lists_view.js?<<CACHE>>"></script>
+<script src="https://kit.fontawesome.com/2f925bff07.js" crossorigin="anonymous"></script>

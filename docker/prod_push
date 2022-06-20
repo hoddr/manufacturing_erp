@@ -1,0 +1,25 @@
+#!/bin/bash
+
+export PB_BASE_URL="https://erp.baseUrl.com"
+cd ..
+./web-build
+cd docker
+rm -r prod_dist/web
+mkdir -p prod_dist/web/
+cp -r ../web/min prod_dist/web/.
+cp ../web/favicon.png prod_dist/web/.
+
+# recursive copy files to server
+scp -r prod_dist erp:/home/prod_dist
+
+ssh -t erp "/bin/bash -s << EOF
+  cd /home/foobar
+  sudo systemctl stop foobar_erp.service
+  rm -r dist-newstyle
+  mv prod_dist/dist-newstyle dist-newstyle
+  rm -r web
+  mv prod_dist/web web
+  rm -r prod_dist
+  sudo systemctl start foobar_erp.service
+  sudo systemctl status foobar_erp.service
+EOF"

@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width: device-width", initial-scale=1>
+    <title>PROGRESSIVE BILLING - ERP</title>
+    <link rel="stylesheet" type="text/css" href="<<BASE_URL>>/css/main.css?<<CACHE>>" />
+    <link rel="icon" type="image/x-icon" href="<<BASE_URL>>/favicon.ico" />
+  </head>
+  <body>
+    <div id="navbar" class="header flex f-row f-wrap f-center">
+    </div>
+
+    <div id="sidebar" class="sidebar flex f-col f-center">
+    </div>
+
+    <div class="content">
+      <div class="pinfo flex f-row f-wrap f-center">
+        <h1>ERP - PROGRESSIVE BILLING</h1>
+        <div class="flex f-wrap f-left">
+          <div class="controls col-1">
+            <button class="toggle" onclick="mainOpen();">Main view</button>
+          </div>
+          <div class="controls col-1">
+            <button class="toggle" onclick="confirmSetAsBilled();">(->) Set as billed</button>
+          </div>
+          <div class="controls col-1">
+            <button class="toggle" onclick="getFlangeReport();">Get flange count</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="body">
+        <table id="t_lineItems">
+          <caption id="cap_lineItems">Line Items</caption>
+          <thead>
+            <tr>
+              <th>Id</th>
+              <th>Description</th>
+              <th>Quantity</th>
+              <th>Quant. Fabricated</th>
+              <th>Price</th>
+              <th>Weight (lbs)</th>
+              <th>(+) Fabrication Quant.</th>
+              <th>(-) Fabrication Quant.</th>
+              <th>Is Extra</th>
+              <th>Is Fabbed?</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+  </body>
+</html>
+
+<script type="text/javascript" src="<<BASE_URL>>/js/main.js?<<CACHE>>"></script>
+<script type="text/javascript" src="<<BASE_URL>>/js/api.js?<<CACHE>>"></script>
+<script type="text/javascript" src="<<BASE_URL>>/js/progressive_view.js?<<CACHE>>"></script>
+<script src="https://kit.fontawesome.com/2f925bff07.js" crossorigin="anonymous"></script>

@@ -1,0 +1,325 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width: device-width", initial-scale=1>
+    <title>PURCHASE ITEMS - ERP</title>
+    <link rel="stylesheet" type="text/css" href="<<BASE_URL>>/css/main.css?<<CACHE>>" />
+    <link rel="icon" type="image/x-icon" href="<<BASE_URL>>/favicon.ico" />
+  </head>
+  <body>
+    <div id="navbar" class="header flex f-row f-wrap f-center">
+    </div>
+
+    <div id="sidebar" class="sidebar flex f-col f-center">
+    </div>
+
+    <div class="content">
+      <div class="pinfo flex f-row f-wrap f-center">
+        <h1>ERP - PURCHASE ITEMS</h1>
+        <div class="flex f-wrap f-left">
+          <div class="controls col-1">
+            <button class="toggle" onclick="mainOpen();">Main view</button>
+          </div>
+          <div class="controls col-1">
+            <button class="toggle" onclick="updateListQS(listItems, event);">(?) Update query</button>
+          </div>
+          <div class="controls col-1">
+            <button class="toggle" onclick="addItemOpen();">(+) Add new item</button>
+          </div>
+          <div class="controls col-1">
+            <button class="toggle" onclick="invReconcile(event);">Reconcile current item(s) inventory</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="body">
+        <div id="t_items" style="display: none;">
+          <div class="subview">
+            <form id="f_pag_form" autocomplete="off">
+              <div class="flex f-wrap fill-90">
+                <div class="col-4">
+                  <label for="qs_search">Search (on *Columns only)</label>
+                  <input type="text" id="qs_search" name="search" value="" />
+                </div>
+
+                <div class="col-4">
+                  <label for="qs_limit">#/page</label>
+                  <input type="number" id="qs_limit" name="limit" min="1" step="1" required value="100" />
+                </div>
+
+                <div class="col-4">
+                  <label for="qs_offset">Page #</label>
+                  <input type="number" id="qs_offset" name="offset" min="1" step="1" required value="1" />
+                </div>
+              </div>
+              <input type="submit" style="display: none;" value="(?) Update query" />
+            </form>
+          </div>
+
+          <!-- main item table -->
+          <table>
+            <caption id="cap_items">Purchase Items Master List</caption>
+            <thead>
+              <tr>
+                <th>*Generic Name</th>
+                <th>*Autodesk Id</th>
+                <th>*Name</th>
+                <th>*Description</th>
+                <th>Balance Category</th>
+                <th>Cost</th>
+                <th>Custom Markup</th>
+                <th>Price</th>
+                <th>On Hand</th>
+                <th>On Order</th>
+                <th>Reorder Point</th>
+                <th>*Vendor</th>
+                <th>*VPN</th>
+                <th>*Vendor Category</th>
+                <th>*Preferred Vendor</th>
+                <th>Lead Time</th>
+                <th>Edit</th>
+                <th>Delete</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+
+        <!-- add form -->
+        <div id="d_sub_add_form" class="subview" style="display: none;">
+          <form id="f_add_form" autocomplete="off">
+            <div class="flex f-wrap fill-90">
+              <div class="col-2">
+                <label for="f_genericName">Generic name (ALL CAPS)</label>
+                <input type="text" id="f_genericName" name="genericName" required />
+              </div>
+
+              <div class="col-2">
+                <label for="f_autodeskId">Autodesk Database ID (if applicable)</label>
+                <input type="text" id="f_autodeskId" name="autodeskId" />
+              </div>
+            </div>
+
+            <div class="flex f-wrap fill-90">
+              <div class="col-2">
+                <label for="f_name">Item name</label>
+                <input type="text" id="f_name" name="name" required />
+              </div>
+
+              <div class="col-2">
+                <label for="f_description">Description</label>
+                <input type="text" id="f_description" name="description" required />
+              </div>
+            </div>
+
+            <div class="flex f-wrap fill-90">
+              <div class="col-2">
+                <label for="f_balanceCategory">Item Code</label>
+                <input type="text" id="f_balanceCategory" name="balanceCategory" list="list_cats" required />
+              </div>
+
+              <div class="col-2">
+                <label for="f_cost">Cost</label>
+                <input type="number" id="f_cost" name="cost" required minimum="0.00" step="0.0001" />
+              </div>
+            </div>
+
+            <hr class="border-light" />
+
+            <div class="flex f-wrap fill-90">
+              <div class="col-3">
+                <label for="f_onHand">On hand</label>
+                <input type="number" id="f_onHand" name="onHand" required />
+              </div>
+
+              <div class="col-3">
+                <label for="f_onOrder">On order</label>
+                <input type="number" id="f_onOrder" name="onOrder" required />
+              </div>
+
+              <div class="col-3">
+                <label for="f_minOnHand">Min. on hand</label>
+                <input type="number" id="f_minOnHand" name="minOnHand" required min="0.00" />
+              </div>
+            </div>
+
+            <hr class="border-light" />
+            <div class="flex f-wrap fill-90">
+              <div class="col-2">
+                <label for="f_vendor">Vendor (if fabricated in-house)</label>
+                <input type="text" id="f_vendor" name="vendor" required list="list_item_vendors" />
+              </div>
+
+              <div class="col-2">
+                <label for="f_vendor_category">Vendor category</label>
+                <input type="text" id="f_vendor_category" name="vendorCategory" />
+              </div>
+            </div>
+
+            <div class="flex f-wrap fill-90">
+              <div class="col-3">
+                <label for="f_vendor_part_number">Vendor part number</label>
+                <input type="text" id="f_vendor_part_number" name="vendorPartNumber" />
+              </div>
+
+              <div class="col-3">
+                <label for="f_preferredVendor">Preferred vendor</label>
+                <input type="text" id="f_preferredVendor" name="preferredVendor" required
+                             list="list_item_vendors" />
+              </div>
+
+              <div class="col-3">
+                <label for="f_leadTime">Lead time</label>
+                <input type="text" id="f_leadTime" name="leadTime" />
+              </div>
+            </div>
+
+            <input type="hidden" id="f_vendorId" name="vendorId" />
+            <input type="hidden" id="f_vendorName" name="vendorName" />
+            <input type="hidden" id="f_vendorCompany" name="vendorCompany" />
+
+            <hr class="border-light" />
+            <input class="toggle" type="submit" value="Add purchase item" />
+
+            <datalist id="list_item_vendors"></datalist>
+            <datalist id="list_cats">
+              <option id="opts_warehouse">Warehouse</option>
+              <option id="opts_flange">Flange</option>
+              <option id="opts_hetos">HETO</option>
+              <option id="opts_snaplock">Snaplock</option>
+              <option id="opts_prepaid">Job Materials</option>
+              <option id="opts_buildingMaintenance">Building Maintenance</option>
+              <option id="opts_shopSupplies">Misc Shop Supplies</option>
+              <option id="opts_tools">Tools</option>
+            </datalist>
+          </form>
+        </div>
+
+        <!-- edit form -->
+        <div id="d_sub_edit_form" class="subview" style="display: none">
+          <form id="f_edit_form" autocomplete="off">
+            <div class="flex f-wrap fill-90">
+              <div class="col-2">
+                <label for="f_genericNameEdit">Generic name (ALL CAPS)</label>
+                <input type="text" id="f_genericNameEdit" name="genericName" required />
+              </div>
+
+              <div class="col-2">
+                <label for="f_autodeskIdEdit">Autodesk Database ID (if applicable)</label>
+                <input type="text" id="f_autodeskIdEdit" name="autodeskId" />
+              </div>
+            </div>
+
+            <div class="flex f-wrap fill-90">
+              <div class="col-3">
+                <label for="f_nameEdit">Item name</label>
+                <input type="text" id="f_nameEdit" name="name" required />
+              </div>
+
+              <div class="col-3">
+                <label for="f_descriptionEdit">Description</label>
+                <input type="text" id="f_descriptionEdit" name="description" required />
+              </div>
+
+              <div class="col-3">
+                <label for="f_balanceCategoryEdit">Item Code</label>
+                <input type="text" id="f_balanceCategoryEdit" name="balanceCategory" list="list_catsEdit" required />
+              </div>
+            </div>
+
+            <div class="flex f-wrap fill-90">
+              <div class="col-2">
+                <label for="f_costEdit">Cost</label>
+                <input type="number" id="f_costEdit" name="cost" required minimum="0.00" step="0.0001" />
+              </div>
+
+              <div class="col-2">
+                <label for="f_markupEdit">Custom Markup</label>
+                <input type="number" id="f_markupEdit" name="markup" required minimum="1.00" step="0.01" />
+              </div>
+            </div>
+
+            <hr class="border-light" />
+
+            <div class="flex f-wrap fill-90">
+              <div class="col-3">
+                <label for="f_onHandEdit">On hand</label>
+                <input type="number" id="f_onHandEdit" name="onHand" required />
+              </div>
+
+              <div class="col-3">
+                <label for="f_onOrderEdit">On order</label>
+                <input type="number" id="f_onOrderEdit" name="onOrder" required />
+              </div>
+
+              <div class="col-3">
+                <label for="f_minOnHandEdit">Min. on hand</label>
+                <input type="number" id="f_minOnHandEdit" name="minOnHand" required min="0.00" />
+              </div>
+            </div>
+
+            <hr class="border-light" />
+            <div class="flex f-wrap fill-90">
+              <div class="col-2">
+                <label for="f_vendorEdit">Vendor (if fabricated in-house)</label>
+                <input type="text" id="f_vendorEdit" name="vendor" required
+                  list="list_item_vendorsEdit" />
+              </div>
+
+              <div class="col-2">
+                <label for="f_vendorCategoryEdit">Vendor category</label>
+                <input type="text" id="f_vendorCategoryEdit" name="vendorCategory" />
+              </div>
+            </div>
+
+            <div class="flex f-wrap fill-90">
+              <div class="col-3">
+                <label for="f_vendorPartNumberEdit">Vendor part number</label>
+                <input type="text" id="f_vendorPartNumberEdit" name="vendorPartNumber" />
+              </div>
+
+              <div class="col-3">
+                <label for="f_preferredVendorEdit">Preferred vendor</label>
+                <input type="text" id="f_preferredVendorEdit" name="preferredVendor" required
+                             list="list_item_vendorsEdit" />
+              </div>
+
+              <div class="col-3">
+                <label for="f_leadTimeEdit">Lead time</label>
+                <input type="text" id="f_leadTimeEdit" name="leadTime" />
+              </div>
+            </div>
+
+            <input type="hidden" id="f_idEdit" name="id" />
+            <input type="hidden" id="f_invIdEdit" name="invId" />
+            <input type="hidden" id="f_invRefTypeEdit" name="type" />
+            <input type="hidden" id="f_vendorIdEdit" name="vendorId" />
+            <input type="hidden" id="f_vendorNameEdit" name="vendorName" />
+            <input type="hidden" id="f_vendorCompanyEdit" name="vendorCompany" />
+
+            <hr class="border-light" />
+            <input class="toggle" type="submit" value="Edit purchase item" />
+
+            <datalist id="list_item_vendorsEdit"></datalist>
+            <datalist id="list_catsEdit">
+              <option id="opts_warehouseEdit">Warehouse</option>
+              <option id="opts_flangeEdit">Flange</option>
+              <option id="opts_hetosEdit">HETO</option>
+              <option id="opts_snaplockEdit">Snaplock</option>
+              <option id="opts_prepaidEdit">Job Materials</option>
+              <option id="opts_buildingMaintenanceEdit">Building Maintenance</option>
+              <option id="opts_shopSuppliesEdit">Misc Shop Supplies</option>
+              <option id="opts_toolsEdit">Tools</option>
+            </datalist>
+          </form>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
+
+<script type="text/javascript" src="<<BASE_URL>>/js/main.js?<<CACHE>>"></script>
+<script type="text/javascript" src="<<BASE_URL>>/js/api.js?<<CACHE>>"></script>
+<script type="text/javascript" src="<<BASE_URL>>/js/purchase_items_view.js?<<CACHE>>"></script>
+<script src="https://kit.fontawesome.com/2f925bff07.js" crossorigin="anonymous"></script>

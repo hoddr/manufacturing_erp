@@ -1,0 +1,20 @@
+#!/bin/bash
+
+ssh time_study "/bin/bash -s << EOFI
+  export PATH=\"$PATH:/home/erp/.ghcup/bin\"
+  cd /home/erp/code
+  git checkout dev
+  expect << EOF
+  set timeout -1
+  spawn git fetch -p
+  match_max 100000
+  expect -exact \"Enter passphrase for key '/home/erp/.ssh/id_rsa': \"
+  send -- \"$ERP_PB_REMOTE_GIT_KEY\r\"
+  expect eof
+EOF
+  git merge
+  /home/erp/.ghcup/bin/cabal build
+EOFI"
+
+./scripts/transfer_erp && ./scripts/swap_erp
+./scripts/web-prod-build-push

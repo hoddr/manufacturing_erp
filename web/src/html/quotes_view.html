@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width: device-width", initial-scale=1>
+    <title>QUOTES - ERP</title>
+    <link rel="stylesheet" type="text/css" href="<<BASE_URL>>/css/main.css?<<CACHE>>" />
+    <link rel="icon" type="image/x-icon" href="<<BASE_URL>>/favicon.ico" />
+  </head>
+  <body>
+    <div id="navbar" class="header flex f-row f-wrap f-center">
+    </div>
+
+    <div id="sidebar" class="sidebar flex f-col f-center">
+    </div>
+
+    <div class="content">
+      <div class="pinfo flex f-row f-wrap f-center">
+        <h1>ERP - QUOTES</h1>
+        <div class="flex f-wrap f-left">
+          <div class="controls col-1">
+            <button class="toggle" onclick="mainOpen();">Main view</button>
+          </div>
+          <div class="controls col-1">
+            <button class="toggle" onclick="updateListQS(listQuotes, event);">(?) Update query</button>
+          </div>
+          <div class="controls col-1">
+            <button class="toggle" onclick="openAddQuote(event);">(+) Add quote</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="body">
+        <div id="t_quotes">
+          <div class="subview">
+            <form id="f_pag_form" autocomplete="off">
+              <div class="flex f-wrap fill-90">
+                <div class="col-4">
+                  <label for="qs_search">Search (on *Columns only)</label>
+                  <input type="text" id="qs_search" name="search" value="" />
+                </div>
+
+                <div class="col-4">
+                  <label for="qs_limit">#/page</label>
+                  <input type="number" id="qs_limit" name="limit" min="1" step="1" required value="50" />
+                </div>
+
+                <div class="col-4">
+                  <label for="qs_offset">Page #</label>
+                  <input type="number" id="qs_offset" name="offset" min="1" step="1" required value="1" />
+                </div>
+              </div>
+              <input type="submit" style="display: none;" value="Update query" />
+            </form>
+          </div>
+          <table>
+            <caption id="cap_quotes">Quotes Master List</caption>
+            <thead>
+              <tr>
+                <th>Type</th>
+                <th>*Number</th>
+                <th>PO</th>
+                <th>*Order Number</th>
+                <th>*Customer</th>
+                <th>(QP) Set Price</th>
+                <th>Entered</th>
+                <th>Line Items</th>
+                <th>Edit</th>
+                <th>Delete</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+
+        <table id="t_lineItems" style="display: none;">
+          <caption id="cap_lineItems">Line Items</caption>
+          <thead>
+            <tr>
+              <th>Id</th>
+              <th>Description</th>
+              <th>Category</th>
+              <th>Quantity</th>
+              <th>Price</th>
+              <th>Weight (lbs)</th>
+              <th>Is Extra</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+
+        <div id="d_sub_add_form" class="subview" style="display: none;">
+          <form id="f_quote" autocomplete="off">
+            <div class="flex f-wrap fill-90">
+              <div class="col-3">
+                <label for="f_number">Quote Number</label>
+                <input type="text" id="f_number" name="number" required />
+              </div>
+
+              <div class="col-3">
+                <label for="f_quotepo">Quote PO/Job Name (leave blank if none)</label>
+                <input type="text" id="f_quotepo" name="quotepo" />
+              </div>
+
+              <div class="col-3">
+                <label for="f_type">Quote Type</label>
+                <input type="text" id="f_type" name="type" list="list_quoteTypes" required />
+              </div>
+            </div>
+
+            <div class="flex f-wrap fill-90">
+              <div class="col-2">
+                <label for="f_customer">Customer</label>
+                <input type="text" id="f_customer" name="customer" required list="list_customers" />
+              </div>
+
+              <div class="col-2">
+                <label for="f_setPrice">Quote Price (only if no line items)</label>
+                <input type="number" id="f_setPrice" name="setPrice" step="0.01" />
+              </div>
+            </div>
+
+            <input type="hidden" id="f_customerId" name="customerId" />
+            <input type="hidden" id="f_customerName" name="customerName" />
+            <input type="hidden" id="f_customerCompany" name="customerCompany" />
+            <input type="hidden" id="f_customerType" name="customerType" />
+            <input type="hidden" id="f_customerMarkup" name="customerMarkup" />
+            <input type="hidden" id="f_customerTaxExempt" name="customerTaxExempt" />
+
+            <hr class="border-light" />
+            <input class="toggle" type="submit" value="Add quote" />
+
+            <datalist id="list_quoteTypes">
+              <option id="opt_qp" value="QP">QP</option>
+              <option id="opt_ql" value="QL">QL</option>
+              <option id="opt_qb" value="QB">QB</option>
+            </datalist>
+            <datalist id="list_customers"></datalist>
+          </form>
+        </div>
+
+        <div id="d_sub_edit_form" class="subview" style="display: none;">
+          <form id="f_edit_quote" autocomplete="off">
+            <div class="flex f-wrap fill-90">
+              <div class="col-3">
+                <label for="f_quoteNumberEdit">Quote Number</label>
+                <input type="text" id="f_quoteNumberEdit" name="number" required />
+              </div>
+
+              <div class="col-3">
+                <label for="f_quotepoEdit">Quote PO/Job Name (leave blank if none)</label>
+                <input type="text" id="f_quotepoEdit" name="po" />
+              </div>
+
+              <div class="col-3">
+                <label for="f_quoteTypeEdit">Quote Type</label>
+                <input type="text" id="f_quoteTypeEdit" name="type" list="list_quoteTypesEdit" required />
+              </div>
+            </div>
+
+            <div class="flex f-wrap fill-90">
+              <div class="col-2">
+                <label for="f_customerEdit">Customer</label>
+                <input type="text" id="f_customerEdit" name="customer" required
+                             list="list_customersEdit" />
+              </div>
+
+              <div class="col-2">
+                <label for="f_setPriceEdit">Quote Price (only if no line items)</label>
+                <input type="number" id="f_setPriceEdit" name="setPrice" step="0.01" />
+              </div>
+            </div>
+
+            <input type="hidden" id="f_idEdit" name="id" />
+            <input type="hidden" id="f_customerIdEdit" name="customerId" />
+            <input type="hidden" id="f_customerNameEdit" name="customerName" />
+            <input type="hidden" id="f_customerCompanyEdit" name="customerCompany" />
+            <input type="hidden" id="f_customerTypeEdit" name="customerType" />
+            <input type="hidden" id="f_customerMarkupEdit" name="customerMarkup" />
+            <input type="hidden" id="f_customerTaxExemptEdit" name="customerTaxExemptEdit" />
+
+            <hr class="border-light" />
+            <input class="toggle" type="submit" value="Edit quote" />
+            <input class="toggle submit2" type="submit" onclick="createProjectOpen(event);"
+              value="Create project from quote" />
+            <input class="toggle submit3" type="submit" onclick="createOrderOpen(event);"
+              value="Create order from quote" />
+
+            <datalist id="list_quoteTypesEdit">
+              <option id="opt_qp" value="QP">QP</option>
+              <option id="opt_ql" value="QL">QL</option>
+              <option id="opt_qb" value="QB">QB</option>
+            </datalist>
+            <datalist id="list_customersEdit"></datalist>
+          </form>
+        </div>
+
+        <div id="d_sub_qtop_form" class="subview" style="display: none;">
+          <form id="f_quote_to_project" autocomplete="off">
+            <div class="flex f-wrap fill-90">
+              <div class="col-2">
+                <label for="f_appId">Project Number</label>
+                <input type="number" id="f_appId" name="appId" required />
+              </div>
+
+              <div class="col-2">
+                <label for="f_po">Project PO</label>
+                <input type="text" id="f_po" name="po" required />
+              </div>
+            </div>
+
+            <div class="flex f-wrap fill-90">
+              <div class="col-2">
+                <label for="f_name">Project Name</label>
+                <input type="text" id="f_name" name="name" required />
+              </div>
+
+              <div class="col-2">
+                <label for="f_totalEstimatedWeight">Estimated Weight (lbs)</label>
+                <input type="number" id="f_totalEstimatedWeight" name="totalEstimatedWeight" required
+                                                      min="0.0" step="0.1" />
+              </div>
+            </div>
+
+            <hr class="border-light" />
+            <input class="toggle" type="submit" value="Create project from quote" />
+          </form>
+        </div>
+
+        <div id="d_sub_qtoo_form" class="subview" style="display: none;">
+          <form id="f_quote_to_order" autocomplete="off">
+            <div class="flex f-wrap fill-90">
+              <div class="col-2">
+                <label for="f_ordNumber">Order Number</label>
+                <input type="text" id="f_ordNumber" name="ordNumber" required />
+              </div>
+
+              <div class="col-2">
+                <label for="f_ordPo">Order PO</label>
+                <input type="text" id="f_ordPO" name="ordPo" required />
+              </div>
+            </div>
+
+            <hr class="border-light" />
+            <input class="toggle" type="submit" value="Create order from quote" />
+          </form>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
+
+<script type="text/javascript" src="<<BASE_URL>>/js/main.js?<<CACHE>>"></script>
+<script type="text/javascript" src="<<BASE_URL>>/js/api.js?<<CACHE>>"></script>
+<script type="text/javascript" src="<<BASE_URL>>/js/quotes_view.js?<<CACHE>>"></script>
+<script src="https://kit.fontawesome.com/2f925bff07.js" crossorigin="anonymous"></script>

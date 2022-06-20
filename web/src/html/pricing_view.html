@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width: device-width", initial-scale=1>
+    <title>PRICING INFO - ERP</title>
+    <link rel="stylesheet" type="text/css" href="<<BASE_URL>>/css/main.css?<<CACHE>>" />
+    <link rel="icon" type="image/x-icon" href="<<BASE_URL>>/favicon.ico" />
+  </head>
+  <body>
+    <div id="navbar" class="header flex f-row f-wrap f-center">
+    </div>
+
+    <div id="sidebar" class="sidebar flex f-col f-center">
+    </div>
+
+    <div class="content">
+      <div class="pinfo flex f-row f-wrap f-center">
+        <h1>ERP - PRICING INFO</h1>
+        <div class="flex f-wrap f-left">
+          <div class="controls col-1">
+            <button class="toggle" onclick="mainOpen();">Main view</button>
+          </div>
+          <div class="controls col-1">
+            <button class="toggle" onclick="updateLaborRateOpen(event);">(+) Update labor rate</button>
+          </div>
+          <div class="controls col-1">
+            <button class="toggle" onclick="updateMarkupRatesOpen(event);">(+) Update markup rates</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="body">
+        <table id="t_rates" style="display: none;">
+          <caption id="cap_rates">Pricing Info/Rates</caption>
+          <thead>
+            <tr>
+              <th>Total Rate ($/hr)</th>
+              <th>Shop Rate ($/hr)</th>
+              <th>Overhead Rate ($/hr)</th>
+              <th>Purchase Rate</th>
+              <th>Material Rate</th>
+              <th>Rectangular Rate</th>
+              <th>Round Rate</th>
+              <th>Oval Rate</th>
+              <th>Stock Rate</th>
+              <th>Misc. Fabrication Rate</th>
+              <th>Assembly Rate</th>
+              <th>Quote (QL) Rate</th>
+              <th>Project (QP) Rate</th>
+              <th>Order (FS) Rate</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+
+        <!-- add labor form -->
+        <div id="d_sub_add_labor_form" class="subview" style="display: none;">
+          <form id="f_add_labor_form" autocomplete="off">
+            <div class="flex f-wrap fill-90">
+              <div class="col-2">
+                <label for="f_shopRate">Shop Rate ($/hr)</label>
+                <input type="number" id="f_shopRate" name="shopRate" min="0.00" step="0.01" required />
+              </div>
+
+              <div class="col-2">
+                <label for="f_overheadRate">Overhead Rate ($/hr)</label>
+                <input type="number" id="f_overheadRate" name="overheadRate" min="0.00" step="0.01" required />
+              </div>
+            </div>
+
+            <hr class="border-light" />
+            <input class="toggle" type="submit" value="Update labor rate" />
+          </form>
+        </div>
+
+        <!-- add markup rates form -->
+        <div id="d_sub_add_markups_form" class="subview" style="display: none;">
+          <form id="f_add_markups_form" autocomplete="off">
+            <div class="flex f-wrap fill-90">
+              <div class="col-2">
+                <label for="f_purchase">Purchase/Resale Rate</label>
+                <input type="number" id="f_purchase" name="purchase" min="1.00" step="0.01" required />
+              </div>
+              <div class="col-2">
+                <label for="f_material">Material Rate</label>
+                <input type="number" id="f_material" name="material" min="1.00" step="0.01" required />
+              </div>
+            </div>
+
+            <div class="flex f-wrap fill-90">
+              <div class="col-3">
+                <label for="f_rectangular">Rectangular Rate</label>
+                <input type="number" id="f_rectangular" name="rectangular" min="1.00" step="0.01" required />
+              </div>
+
+              <div class="col-3">
+                <label for="f_round">Round Rate</label>
+                <input type="number" id="f_round" name="round" min="1.00" step="0.01" required />
+              </div>
+
+              <div class="col-3">
+                <label for="f_oval">Oval Rate</label>
+                <input type="number" id="f_oval" name="oval" min="1.00" step="0.01" required />
+              </div>
+            </div>
+
+            <div class="flex f-wrap fill-90">
+              <div class="col-3">
+                <label for="f_stock">Stock Rate</label>
+                <input type="number" id="f_stock" name="stock" min="1.00" step="0.01" required />
+              </div>
+              <div class="col-3">
+                <label for="f_fabrication">Fabrication Rate</label>
+                <input type="number" id="f_fabrication" name="fabrication" min="1.00" step="0.01" required />
+              </div>
+              <div class="col-3">
+                <label for="f_assembly">Assembly Rate</label>
+                <input type="number" id="f_assembly" name="assembly" min="1.00" step="0.01" required />
+              </div>
+            </div>
+
+            <div class="flex f-wrap fill-90">
+              <div class="col-3">
+                <label for="f_quote">Quote (QL) Rate</label>
+                <input type="number" id="f_quote" name="quote" min="0" step="0.01" required />
+              </div>
+              <div class="col-3">
+                <label for="f_project">Project (QP) Rate</label>
+                <input type="number" id="f_project" name="project" min="0" step="0.01" required />
+              </div>
+              <div class="col-3">
+                <label for="f_order">Order (FS) Rate</label>
+                <input type="number" id="f_order" name="order" min="0" step="0.01" required />
+              </div>
+            </div>
+            <hr class="border-light" />
+            <input class="toggle" type="submit" value="Update markup rates" />
+          </form>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
+
+<script type="text/javascript" src="<<BASE_URL>>/js/main.js?<<CACHE>>"></script>
+<script type="text/javascript" src="<<BASE_URL>>/js/api.js?<<CACHE>>"></script>
+<script type="text/javascript" src="<<BASE_URL>>/js/pricing_view.js?<<CACHE>>"></script>
+<script src="https://kit.fontawesome.com/2f925bff07.js" crossorigin="anonymous"></script>

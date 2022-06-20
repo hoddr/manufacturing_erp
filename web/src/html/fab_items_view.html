@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width: device-width", initial-scale=1>
+    <title>FABRICATION ITEMS - ERP</title>
+    <link rel="stylesheet" type="text/css" href="<<BASE_URL>>/css/main.css?<<CACHE>>" />
+    <link rel="icon" type="image/x-icon" href="<<BASE_URL>>/favicon.ico" />
+  </head>
+  <body>
+    <div id="navbar" class="header flex f-row f-wrap f-center">
+    </div>
+
+    <div id="sidebar" class="sidebar flex f-col f-center">
+    </div>
+
+    <div class="content">
+      <div class="pinfo flex f-row f-wrap f-center">
+        <h1>ERP - FABRICATION ITEMS</h1>
+        <div class="flex f-wrap f-left">
+          <div class="controls col-1">
+            <button class="toggle" onclick="mainOpen();">Main view</button>
+          </div>
+          <div class="controls col-1">
+            <button class="toggle" onclick="updateListQS(listItems, event);">(?) Update query</button>
+          </div>
+          <div class="controls col-1">
+            <button class="toggle" onclick="addItemOpen();">(+) Add new item</button>
+          </div>
+          <div class="controls col-1">
+            <button class="toggle" onclick="invReconcile(event);">Reconcile current item(s) inventory</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="body">
+        <div id="t_items" display="style: none;">
+          <div class="subview">
+            <form id="f_pag_form" autocomplete="off">
+              <div class="flex f-wrap fill-90">
+                <div class="col-4">
+                  <label for="qs_search">Search (on *Columns only)</label>
+                  <input type="text" id="qs_search" name="search" value="" />
+                </div>
+
+                <div class="col-4">
+                  <label for="qs_limit">#/page</label>
+                  <input type="number" id="qs_limit" name="limit" min="1" step="1" required value="100" />
+                </div>
+
+                <div class="col-4">
+                  <label for="qs_offset">Page #</label>
+                  <input type="number" id="qs_offset" name="offset" min="1" step="1" required value="1" />
+                </div>
+              </div>
+              <input type="submit" style="display: none;" value="Update query" />
+            </form>
+          </div>
+
+          <table id="t_items" display="style: none;">
+            <caption id="cap_items">Fabrication Items Master List</caption>
+            <thead>
+              <tr>
+                <th>*Name</th>
+                <th>*Description</th>
+                <th>Item Code</th>
+                <th>Units/qty</th>
+                <th>Labor (hr)</th>
+                <th>*Material</th>
+                <th>Mat. Cost</th>
+                <th>Cost</th>
+                <th>Price</th>
+                <th>Stock</th>
+                <th>On Hand</th>
+                <th>On Order</th>
+                <th>Min. on Hand</th>
+                <th>Edit</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+
+        <!-- add form -->
+        <div id="d_sub_add_form" class="subview" style="display: none;">
+          <form id="f_add_form" autocomplete="off">
+            <div class="flex f-wrap fill-90">
+              <div class="col-2">
+                <label for="f_name">Name</label>
+                <input type="text" id="f_name" name="name" required />
+              </div>
+
+              <div class="col-2">
+                <label for="f_description">Description</label>
+                <input type="text" id="f_description" name="description" required />
+              </div>
+            </div>
+
+            <div class="flex f-wrap fill-90">
+              <div class="col-2">
+                <label for="f_balanceCategory">Item Code</label>
+                <input type="text" id="f_balanceCategory" name="balanceCategory" list="list_cats" required />
+              </div>
+
+              <div class="col-2">
+                <label for="f_isStock">Stock item?</label>
+                <div class="controls">
+                  <button class="toggle" id="f_isStockButton" value="off">No</button>
+                </div>
+                <input type="checkbox" id="f_isStock" name="isStock" />
+              </div>
+            </div>
+
+            <div class="flex f-wrap fill-90">
+              <div class="col-3">
+                <label for="f_material">Material</label>
+                <input type="text" id="f_material" name="materialName" required list="list_materials" />
+              </div>
+
+              <div class="col-3">
+                <label for="f_unitQuant">Units/qty</label>
+                <input type="number" id="f_unitQuant" name="unitQuantity" required min="0.00"
+                           step="0.001" />
+              </div>
+
+              <div class="col-3">
+                <label for="f_labor">Labor (hr)</label>
+                <input type="number" id="f_labor" name="labor" required min="0.000" step="0.001" />
+              </div>
+            </div>
+
+            <hr class="border-light" />
+
+            <div class="flex f-wrap fill-90">
+              <div class="col-3">
+                <label for="f_onHand">On hand</label>
+                <input type="number" id="f_onHand" name="onHand" required min="0.00" />
+              </div>
+
+              <div class="col-3">
+                <label for="f_onOrder">On order</label>
+                <input type="number" id="f_onOrder" name="onOrder" required min="0.00" />
+              </div>
+
+              <div class="col-3">
+                <label for="f_minOnHand">Min. on hand</label>
+                <input type="number" id="f_minOnHand" name="minOnHand" required min="0.00" />
+              </div>
+            </div>
+
+            <input type="hidden" id="f_materialId" name="materialId" \>
+
+            <hr class="border-light" />
+            <input class="toggle" type="submit" value="Add fabrication item" />
+
+            <datalist id="list_materials"></datalist>
+            <datalist id="list_cats">
+              <option id="opts_stock_spiral">Stock Spiral</option>
+              <option id="opts_TBD">TBD</option>
+            </datalist>
+          </form>
+        </div>
+
+        <!-- edit form -->
+        <div id="d_sub_edit_form" class="subview" style="display: none">
+          <form id="f_edit_form" autocomplete="off">
+            <div class="flex f-wrap fill-90">
+              <div class="col-2">
+                <label for="f_nameEdit">Name</label>
+                <input type="text" id="f_nameEdit" name="name" required />
+              </div>
+
+              <div class="col-2">
+                <label for="f_descriptionEdit">Description</label>
+                <input type="text" id="f_descriptionEdit" name="description" required />
+              </div>
+            </div>
+
+            <div class="flex f-wrap fill-90">
+              <div class="col-2">
+                <label for="f_balanceCategoryEdit">Item Code</label>
+                <input type="text" id="f_balanceCategoryEdit" name="balanceCategory" list="list_catsEdit" required />
+              </div>
+
+              <div class="col-2">
+                <label for="f_isStockEdit">Stock item?</label>
+                <div class="controls">
+                  <button class="toggle" id="f_isStockButtonEdit" value="off"></button>
+                </div>
+                <input type="checkbox" id="f_isStockEdit" name="isStock" />
+              </div>
+            </div>
+
+            <div class="flex f-wrap fill-90">
+              <div class="col-3">
+                <label for="f_materialEdit">Material</label>
+                <input type="text" id="f_materialEdit" name="materialName" required list="list_materials" />
+              </div>
+
+              <div class="col-3">
+                <label for="f_unitQuantEdit">Units/qty</label>
+                <input type="number" id="f_unitQuantEdit" name="unitQuantity" required min="0.00"
+                           step="0.001" />
+              </div>
+
+              <div class="col-3">
+                <label for="f_laborEdit">Labor (hr)</label>
+                <input type="number" id="f_laborEdit" name="labor" required min="0.000" step="0.001" />
+              </div>
+            </div>
+
+            <hr class="border-light" />
+
+            <div class="flex f-wrap fill-90">
+              <div class="col-3">
+                <label for="f_onHandEdit">On hand</label>
+                <input type="number" id="f_onHandEdit" name="onHand" required min="0.00" />
+              </div>
+
+              <div class="col-3">
+                <label for="f_onOrderEdit">On order</label>
+                <input type="number" id="f_onOrderEdit" name="onOrder" required min="0.00" />
+              </div>
+
+              <div class="col-3">
+                <label for="f_minOnHandEdit">Min. on hand</label>
+                <input type="number" id="f_minOnHandEdit" name="minOnHand" required min="0.00" />
+              </div>
+            </div>
+
+            <input type="hidden" id="f_idEdit" name="id" />
+            <input type="hidden" id="f_materialIdEdit" name="materialId" />
+            <input type="hidden" id="f_invIdEdit" name="invId" />
+            <input type="hidden" id="f_invRefTypeEdit" name="type" />
+
+            <hr class="border-light" />
+            <input class="toggle" type="submit" value="Edit fabrication item" />
+
+            <datalist id="list_materialsEdit"></datalist>
+            <datalist id="list_catsEdit">
+              <option id="opts_stock_spiralEdit">Stock Spiral</option>
+              <option id="opts_TBDEdit">TBD</option>
+            </datalist>
+          </form>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
+
+<script type="text/javascript" src="<<BASE_URL>>/js/main.js?<<CACHE>>"></script>
+<script type="text/javascript" src="<<BASE_URL>>/js/api.js?<<CACHE>>"></script>
+<script type="text/javascript" src="<<BASE_URL>>/js/fab_items_view.js?<<CACHE>>"></script>
+<script src="https://kit.fontawesome.com/2f925bff07.js" crossorigin="anonymous"></script>

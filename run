@@ -1,0 +1,5 @@
+#!/bin/bash
+rm -f erpTests.tix
+rm -f erpServer.tix
+
+cabal run erpServer

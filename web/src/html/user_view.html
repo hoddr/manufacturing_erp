@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width: device-width", initial-scale=1>
+    <title>USER PERMISSIONS - ERP</title>
+    <link rel="stylesheet" type="text/css" href="<<BASE_URL>>/css/main.css?<<CACHE>>" />
+    <link rel="icon" type="image/x-icon" href="<<BASE_URL>>/favicon.ico" />
+  </head>
+  <body>
+    <div id="navbar" class="header flex f-row f-wrap f-center">
+    </div>
+
+    <div id="sidebar" class="sidebar flex f-col f-center">
+    </div>
+
+    <div class="content">
+      <div class="pinfo flex f-row f-wrap f-center">
+        <h1>ERP - USER PERMISSIONS</h1>
+      </div>
+
+      <div class="body">
+        <h4>0 = none | 1 = read only | 2 = write only | 3 = delete</h4>
+        <!-- edit form -->
+        <div id="d_sub_edit_form" class="subview">
+          <form id="f_edit_userPermissions" autocomplete="off">
+            <div class="flex f-wrap fill-90">
+              <div class="col-3">
+                <label for="f_assembliesEdit">Assemblies</label>
+                <input type="number" id="f_assembliesEdit" name="assemblies" required min="0" max="3" step="1" />
+              </div>
+
+              <div class="col-3">
+                <label for="f_customersEdit">Customers</label>
+                <input type="number" id="f_customersEdit" name="customers" required min="0" max="3" step="1" />
+              </div>
+
+              <div class="col-3">
+                <label for="f_fabricationEdit">Fabrication</label>
+                <input type="number" id="f_fabricationEdit" name="fabrication" required min="0" max="3" step="1" />
+              </div>
+            </div>
+
+            <div class="flex f-wrap fill-90">
+              <div class="col-3">
+                <label for="f_feedbackEdit">Feedback Complaints</label>
+                <input type="number" id="f_feedbackEdit" name="feedbackComplaints" required min="0" max="3" step="1" />
+              </div>
+
+              <div class="col-3">
+                <label for="f_inventoryEdit">Inventory</label>
+                <input type="number" id="f_inventoryEdit" name="inventory" required min="0" max="3" step="1" />
+              </div>
+
+              <div class="col-3">
+                <label for="f_materialsEdit">Materials</label>
+                <input type="number" id="f_materialsEdit" name="materials" required min="0" max="3" step="1" />
+              </div>
+            </div>
+
+            <div class="flex f-wrap fill-90">
+              <div class="col-3">
+                <label for="f_ordersEdit">Orders</label>
+                <input type="number" id="f_ordersEdit" name="orders" required min="0" max="3" step="1" />
+              </div>
+
+              <div class="col-3">
+                <label for="f_pricingEdit">Pricing (Markups)</label>
+                <input type="number" id="f_pricingEdit" name="pricing" required min="0" max="3" step="1" />
+              </div>
+
+              <div class="col-3">
+                <label for="f_pricingListsEdit">Pricing Lists</label>
+                <input type="number" id="f_pricingListsEdit" name="pricingLists" required min="0" max="3" step="1" />
+              </div>
+            </div>
+
+            <div class="flex f-wrap fill-90">
+              <div class="col-3">
+                <label for="f_projectsEdit">Projects</label>
+                <input type="number" id="f_projectsEdit" name="projects" required min="0" max="3" step="1" />
+              </div>
+
+              <div class="col-3">
+                <label for="f_purchaseEdit">Purchase Items</label>
+                <input type="number" id="f_purchaseEdit" name="purchase" required min="0" max="3" step="1" />
+              </div>
+
+              <div class="col-3">
+                <label for="f_quotesEdit">Quotes</label>
+                <input type="number" id="f_quotesEdit" name="quotes" required min="0" max="3" step="1" />
+              </div>
+            </div>
+
+            <div class="flex f-wrap fill-90">
+              <div class="col-3">
+                <label for="f_usersEdit">Users</label>
+                <input type="number" id="f_usersEdit" name="users" required min="0" max="3" step="1" />
+              </div>
+
+              <div class="col-3">
+                <label for="f_vendorsEdit">Vendors</label>
+                <input type="number" id="f_vendorsEdit" name="vendors" required min="0" max="3" step="1" />
+              </div>
+
+              <div class="col-3">
+                <label for="f_purchaseOrdersEdit">Purchase Orders</label>
+                <input type="number" id="f_purchaseOrdersEdit" name="purchaseOrders" required min="0" max="3" step="1" />
+              </div>
+            </div>
+
+            <div class="flex f-wrap fill-90">
+              <div class="col-3">
+                <label for="f_errorLogEdit">Error Log</label>
+                <input type="number" id="f_errorLogEdit" name="errorLog" required min="0" max="3" step="1" />
+              </div>
+
+              <div class="col-3">
+                <label for="f_curbCoEdit">CC</label>
+                <input type="number" id="f_curbCoEdit" name="curbCo" required min="0" max="3" step="1" />
+              </div>
+            </div>
+
+            <hr class="border-light" />
+
+            <input type="hidden" id="f_idEdit" name="id" />
+            <input type="hidden" id="f_userIdEdit" name="userId" />
+            <input class="toggle" type="submit" value="Edit user permissions" />
+          </form>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
+
+<script type="text/javascript" src="<<BASE_URL>>/js/main.js?<<CACHE>>"></script>
+<script type="text/javascript" src="<<BASE_URL>>/js/api.js?<<CACHE>>"></script>
+<script type="text/javascript" src="<<BASE_URL>>/js/user_view.js?<<CACHE>>"></script>
+<script src="https://kit.fontawesome.com/2f925bff07.js" crossorigin="anonymous"></script>

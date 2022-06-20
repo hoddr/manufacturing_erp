@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width: device-width", initial-scale=1>
+    <title>MATERIALS - ERP</title>
+    <link rel="stylesheet" type="text/css" href="<<BASE_URL>>/css/main.css?<<CACHE>>" />
+    <link rel="icon" type="image/x-icon" href="<<BASE_URL>>/favicon.ico" />
+  </head>
+  <body>
+    <div id="navbar" class="header flex f-row f-wrap f-center">
+    </div>
+
+    <div id="sidebar" class="sidebar flex f-col f-center">
+    </div>
+
+    <div class="content">
+      <div class="pinfo flex f-row f-wrap f-center">
+        <h1>ERP - MATERIALS</h1>
+        <div class="flex f-wrap f-left">
+          <div class="controls col-1">
+            <button class="toggle" onclick="mainOpen();">Main view</button>
+          </div>
+          <div class="controls col-1">
+            <button class="toggle" onclick="updateListQS(listMaterials, event);">(?) Update query</button>
+          </div>
+          <div class="controls col-1">
+            <button class="toggle" onclick="addMaterialOpen();">(+) Add new material</button>
+          </div>
+          <div class="controls col-1">
+            <button class="toggle" onclick="invReconcile(event);">Reconcile inventory</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="body">
+        <div id="t_materials">
+          <div class="subview">
+            <form id="f_pag_form" autocomplete="off">
+              <div class="flex f-wrap fill-90">
+                <div class="col-4">
+                  <label for="qs_search">Search (on *Columns only)</label>
+                  <input type="text" id="qs_search" name="search" value="" />
+                </div>
+
+                <div class="col-4">
+                  <label for="qs_limit">#/page</label>
+                  <input type="number" id="qs_limit" name="limit" min="1" step="1" required value="100" />
+                </div>
+
+                <div class="col-4">
+                  <label for="qs_offset">Page #</label>
+                  <input type="number" id="qs_offset" name="offset" min="1" step="1" required value="1" />
+                </div>
+              </div>
+              <input type="submit" style="display: none;" value="Update query" />
+            </form>
+          </div>
+
+          <table>
+            <caption id="cap_materials">Materials Master List</caption>
+            <thead>
+              <tr>
+                <th>*Name</th>
+                <th>*Description</th>
+                <th>Balance Category</th>
+                <th>Unit</th>
+                <th>Surface Dens. (lbs/sq ft)</th>
+                <th>Cost/unit</th>
+                <th>On Hand</th>
+                <th>On Order</th>
+                <th>Min. On Hand</th>
+                <th>*Preferred Vendor</th>
+                <th>Edit</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+
+        <!-- add form -->
+        <div id="d_sub_add_form" class="subview" style="display: none;">
+          <form id="f_add_material" autocomplete="off">
+            <div class="flex f-wrap fill-90">
+              <div class="col-2">
+                <label for="f_name">Material name</label>
+                <input type="text" id="f_name" name="name" required />
+              </div>
+
+              <div class="col-2">
+                <label for="f_description">Description</label>
+                <input type="text" id="f_company" name="description" required />
+              </div>
+
+            </div>
+            <div class="flex f-wrap fill-90">
+              <div class="col-2">
+                <label for="f_unit">Unit (e.g. pound (lb))</label>
+                <input type="text" id="f_unit" name="unit" required />
+              </div>
+
+              <div class="col-2">
+                <label for="f_surfaceDensity">Surface Density (lbs/sq ft - optional)</label>
+                <input type="number" id="f_surfaceDensity" name="surfaceDensity" min="0.00" step="0.001" required />
+              </div>
+            </div>
+
+            <div class="flex f-wrap fill-90">
+              <div class="col-2">
+                <label for="f_cost">Cost ($/unit)</label>
+                <input type="number" id="f_cost" name="costPerUnit" required min="0.00" step="0.001" />
+              </div>
+
+              <div class="col-2">
+                <label for="f_balanceCategory">Balance Category</label>
+                <input type="text" id="f_balanceCategory" name="balanceCategory" list="list_cats" required />
+              </div>
+            </div>
+
+            <div class="flex f-wrap fill-90">
+              <div class="col-2">
+                <label for="f_onHand">On Hand</label>
+                <input type="number" id="f_onHand" name="onHand" required min="0.00" />
+              </div>
+
+              <div class="col-2">
+                <label for="f_onOrder">On Order</label>
+                <input type="number" id="f_onOrder" name="onOrder" required min="0.00" />
+              </div>
+            </div>
+
+            <div class="flex f-wrap fill-90">
+              <div class="col-2">
+                <label for="f_minOnHand">Min. on Hand</label>
+                <input type="number" id="f_minOnHand" name="minOnHand" required min="0.00" />
+              </div>
+
+              <div class="col-2">
+                <label for="f_preferredVendor">Preferred Vendor</label>
+                <input type="text" id="f_preferredVendor" name="preferredVendor" required
+                             list="list_vendors" />
+              </div>
+            </div>
+
+            <hr class="border-light" />
+            <input class="toggle" type="submit" value="Add material" />
+
+            <datalist id="list_vendors"></datalist>
+            <datalist id="list_cats">
+              <option id="opt_steel" value="Steel">Steel</option>
+              <option id="opt_prepaid" value="Job Materials">Job Materials</option>
+            </datalist>
+          </form>
+        </div>
+
+        <!-- edit form -->
+        <div id="d_sub_edit_form" class="subview" style="display: none;">
+          <form id="f_edit_material" autocomplete="off">
+            <div class="flex f-wrap fill-90">
+              <div class="col-2">
+                <label for="f_nameEdit">Material name</label>
+                <input type="text" id="f_nameEdit" name="name" required />
+              </div>
+
+              <div class="col-2">
+                <label for="f_descriptionEdit">Description</label>
+                <input type="text" id="f_descriptionEdit" name="description" required />
+              </div>
+
+            </div>
+            <div class="flex f-wrap fill-90">
+              <div class="col-2">
+                <label for="f_unitEdit">Unit (e.g. pound (lb))</label>
+                <input type="text" id="f_unitEdit" name="unit" required />
+              </div>
+
+              <div class="col-2">
+                <label for="f_surfaceDensityEdit">Surface Density (lbs/sq ft - optional)</label>
+                <input type="number" id="f_surfaceDensityEdit" name="surfaceDensity" min="0.00" step="0.001" required />
+              </div>
+            </div>
+
+            <div class="flex f-wrap fill-90">
+              <div class="col-2">
+                <label for="f_costEdit">Cost ($/unit)</label>
+                <input type="number" id="f_costEdit" name="costPerUnit" required min="0.00" step="0.001" />
+              </div>
+
+              <div class="col-2">
+                <label for="f_balanceCategoryEdit">Balance Category</label>
+                <input type="text" id="f_balanceCategoryEdit" name="balanceCategory" list="list_catsEdit" required />
+              </div>
+            </div>
+
+            <div class="flex f-wrap fill-90">
+              <div class="col-2">
+                <label for="f_onHandEdit">On Hand</label>
+                <input type="number" id="f_onHandEdit" name="onHand" required min="0.00" />
+              </div>
+
+              <div class="col-2">
+                <label for="f_onOrderEdit">On Order</label>
+                <input type="number" id="f_onOrderEdit" name="onOrder" required min="0.00" />
+              </div>
+            </div>
+
+            <div class="flex f-wrap fill-90">
+              <div class="col-2">
+                <label for="f_minOnHandEdit">Min. on Hand</label>
+                <input type="number" id="f_minOnHandEdit" name="minOnHand" required min="0.00" />
+              </div>
+
+              <div class="col-2">
+                <label for="f_preferredVendorEdit">Preferred Vendor</label>
+                <input type="text" id="f_preferredVendorEdit" name="preferredVendor" required
+                             list="list_vendorsEdit" />
+              </div>
+            </div>
+
+            <input type="hidden" id="f_idEdit" name="id" />
+            <input type="hidden" id="f_invIdEdit" name="invId" />
+            <input type="hidden" id="f_invRefType" name="type" />
+
+            <hr class="border-light" />
+            <input class="toggle" type="submit" value="Edit material" />
+
+            <datalist id="list_vendorsEdit"></datalist>
+            <datalist id="list_catsEdit">
+              <option id="opt_steelEdit" value="Steel">Steel</option>
+              <option id="opt_prepaidEdit" value="Job Materials">Job Materials</option>
+            </datalist>
+          </form>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
+
+<script type="text/javascript" src="<<BASE_URL>>/js/main.js?<<CACHE>>"></script>
+<script type="text/javascript" src="<<BASE_URL>>/js/api.js?<<CACHE>>"></script>
+<script type="text/javascript" src="<<BASE_URL>>/js/materials_view.js?<<CACHE>>"></script>
+<script src="https://kit.fontawesome.com/2f925bff07.js" crossorigin="anonymous"></script>

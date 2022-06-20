@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width: device-width", initial-scale=1>
+    <title>CURB CO QUOTES - ERP</title>
+    <link rel="stylesheet" type="text/css" href="<<BASE_URL>>/css/main.css?<<CACHE>>" />
+    <link rel="icon" type="image/x-icon" href="<<BASE_URL>>/favicon.ico" />
+  </head>
+  <body>
+    <div id="navbar" class="header flex f-row f-wrap f-center">
+    </div>
+
+    <div id="sidebar" class="sidebar flex f-col f-center">
+    </div>
+
+    <div class="content">
+      <div class="pinfo flex f-row f-wrap f-center">
+        <h1>ERP - CURB CO QUOTES</h1>
+        <div class="flex f-wrap f-left">
+          <div class="controls col-1">
+            <button class="toggle" onclick="mainOpen();">Main view</button>
+          </div>
+          <div class="controls col-1">
+            <button class="toggle" onclick="updateListQS(listQuotes, event);">(?) Update query</button>
+          </div>
+          <div class="controls col-1">
+            <button class="toggle" onclick="openAddQuote(event);">(+) Add quote</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="body">
+        <div id="t_quotes">
+          <div class="subview">
+            <form id="f_pag_form" autocomplete="off">
+              <div class="flex f-wrap fill-90">
+                <div class="col-4">
+                  <label for="qs_search">Search (on *Columns only)</label>
+                  <input type="text" id="qs_search" name="search" value="" />
+                </div>
+
+                <div class="col-4">
+                  <label for="qs_limit">#/page</label>
+                  <input type="number" id="qs_limit" name="limit" min="1" step="1" required value="50" />
+                </div>
+
+                <div class="col-4">
+                  <label for="qs_offset">Page #</label>
+                  <input type="number" id="qs_offset" name="offset" min="1" step="1" required value="1" />
+                </div>
+              </div>
+              <input type="submit" style="display: none;" value="Update query" />
+            </form>
+          </div>
+          <table>
+            <caption id="cap_quotes">CC Quotes Master List</caption>
+            <thead>
+              <tr>
+                <th>Id</th>
+                <th>PID</th>
+                <th>Customer</th>
+                <th>Shipping Costs</th>
+                <th>Fast Pass Cost</th>
+                <th>Is Confirmed</th>
+                <th>Address</th>
+                <th>Edit</th>
+                <th>Delete</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+
+        <div id="d_sub_add_form" class="subview" style="display: none;">
+          <form id="f_quote" autocomplete="off">
+            <div class="flex f-wrap fill-90">
+              <div class="col-2">
+                <label for="f_pid">PID (from Anytime)</label>
+                <input type="text" id="f_pid" name="pid" required />
+              </div>
+
+              <div class="col-2">
+                <label for="f_customer">Customer</label>
+                <input type="text" id="f_customer" name="customer" list="list_customers" required />
+              </div>
+            </div>
+
+            <div class="flex f-wrap fill-90">
+              <div class="col-2">
+                <label for="f_shippingCosts">Shipping Costs</label>
+                <input type="number" id="f_shippingCosts" name="shippingCosts" min="0.00" step="0.01" required />
+              </div>
+
+              <div class="col-2">
+                <label for="f_fastPassCost">Fast Pass Cost ($300 default)</label>
+                <input type="number" id="f_fastPassCost" name="fastPassCost" min="0.00" step="0.01" required />
+              </div>
+            </div>
+
+            <input type="hidden" id="f_customerId" name="customerId" />
+            <input type="hidden" id="f_customerName" name="customerName" />
+            <input type="hidden" id="f_customerCompany" name="customerCompany" />
+            <input type="hidden" id="f_customerType" name="customerType" />
+            <input type="hidden" id="f_customerMarkup" name="customerMarkup" />
+            <input type="hidden" id="f_customerTaxExempt" name="customerTaxExempt" />
+
+            <hr class="border-light" />
+            <input class="toggle" type="submit" value="Add CC quote" />
+            <datalist id="list_customers"></datalist>
+          </form>
+        </div>
+
+        <div id="d_sub_edit_form" class="subview" style="display: none;">
+          <form id="f_edit_quote" autocomplete="off">
+            <div class="flex f-wrap fill-90">
+              <div class="col-2">
+                <label for="f_pidEdit">PID (from Anytime)</label>
+                <input type="text" id="f_pidEdit" name="pid" required />
+              </div>
+
+              <div class="col-2">
+                <label for="f_customerEdit">Customer</label>
+                <input type="text" id="f_customerEdit" name="customer" list="list_customersEdit" required/>
+              </div>
+            </div>
+
+            <div class="flex f-wrap fill-90">
+              <div class="col-2">
+                <label for="f_shippingCostsEdit">Shipping Costs</label>
+                <input type="number" id="f_shippingCostsEdit" name="shippingCosts" min="0.00" step="0.01" required />
+              </div>
+
+              <div class="col-2">
+                <label for="f_fastPassCostEdit">Fast Pass Cost ($300 default)</label>
+                <input type="number" id="f_fastPassCostEdit" name="fastPassCost" min="0.00" step="0.01" required />
+              </div>
+            </div>
+
+            <input type="hidden" id="f_idEdit" name="id" />
+            <input type="hidden" id="f_customerIdEdit" name="customerId" />
+            <input type="hidden" id="f_customerNameEdit" name="customerName" />
+            <input type="hidden" id="f_customerCompanyEdit" name="customerCompany" />
+            <input type="hidden" id="f_customerTypeEdit" name="customerType" />
+            <input type="hidden" id="f_customerMarkupEdit" name="customerMarkup" />
+            <input type="hidden" id="f_customerTaxExemptEdit" name="customerTaxExempt" />
+
+            <hr class="border-light" />
+            <input class="toggle" type="submit" value="Edit CC quote" />
+            <datalist id="list_customersEdit"></datalist>
+          </form>
+        </div>
+
+        <div id="d_sub_address" class="subview" style="display: none;">
+          <form id="f_set_address" autocomplete="off">
+            <div class="flex f-wrap fill-90">
+              <div class="col-2">
+                <label for="f_address">Shipping address</label>
+                <input type="text" id="f_address" name="address" list="list_address" required />
+              </div>
+            </div>
+
+            <input type="hidden" id="f_addressAssignId" name="assignId" />
+            <input type="hidden" id="f_addressId" name="addressId" />
+
+            <hr class="border-light" />
+            <input class="toggle" type="submit" value="Set shipping address" />
+            <datalist id="list_address"></datalist>
+          </form>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
+
+<script type="text/javascript" src="<<BASE_URL>>/js/main.js?<<CACHE>>"></script>
+<script type="text/javascript" src="<<BASE_URL>>/js/api.js?<<CACHE>>"></script>
+<script type="text/javascript" src="<<BASE_URL>>/js/cc_quotes_view.js?<<CACHE>>"></script>
+<script src="https://kit.fontawesome.com/2f925bff07.js" crossorigin="anonymous"></script>

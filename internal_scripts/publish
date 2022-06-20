@@ -1,0 +1,2 @@
+#!/bin/bash
+dotnet publish master.csproj --self-contained --configuration Release --runtime win-x86 --output "C:\Users\hoddr\Office - Documents\office_scripts\pricing_master"

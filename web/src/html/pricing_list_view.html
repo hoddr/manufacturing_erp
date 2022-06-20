@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf8">
+    <meta name="viewport" content="width: device-width", initial-scale=1>
+    <title>ERP - PRICING LIST ITEMS</title>
+    <link rel="stylesheet" type="text/css" href="<<BASE_URL>>/css/main.css?<<CACHE>>" />
+    <link rel="icon" type="image/x-icon" href="<<BASE_URL>>/favicon.ico" />
+  </head>
+  <body>
+    <div id="navbar" class="header flex f-row f-wrap f-center"></div>
+    <div id="sidebar" class="sidebar flex f-col f-center"></div>
+
+    <div class="content">
+      <div class="pinfo flex f-row f-wrap f-center">
+        <h1>ERP - PRICING LIST ITEMS</h1>
+        <div class="controls col-1">
+          <button class="toggle" onclick="mainOpen();">Main view</button>
+        </div>
+        <div class="controls col-1">
+          <button class="toggle" onclick="showCustomersOpen();">(+/-) Customers</button>
+        </div>
+        <div class="controls col-1">
+          <button class="toggle" onclick="getPricingListReport();">Generate pricing list</button>
+        </div>
+      </div>
+
+      <div id="body_1" class="body">
+        <div id="d_sub_items" class="subview-no-height h-40">
+          <form id="f_add_item" autocomplete="off">
+            <div class="flex f-wrap fill-90">
+              <div class="col-2">
+                <label for="f_previousPrice">ERP Price (filled by selection):</label>
+                <input type="number" id="f_previousPrice" name="previousPrice" min="0.00" step="0.01" />
+              </div>
+
+              <div class="col-2">
+                <label for="f_price">List Price:</label>
+                <input type="number" id="f_fixedPrice" name="fixedPrice" min="0.00" step="0.01" />
+              </div>
+            </div>
+            <div class="flex f-wrap fill-90">
+              <div class="col-3">
+                <label for="f_purchase">Select purchase item:</label>
+                <input type="text" id="f_purchase" name="purchase" list="list_purchase" />
+              </div>
+
+              <div class="col-3">
+                <label for="f_fabrication">Select fabrication item:</label>
+                <input type="text" id="f_fabrication" name="fabrication" list="list_fabrication" />
+              </div>
+
+              <div class="col-3">
+                <label for="f_assembly">Select assembly item:</label>
+                <input type="text" id="f_assembly" name="assembly" list="list_assembly" />
+              </div>
+            </div>
+
+            <input type="hidden" id="f_referenceId" name="referenceId">
+            <input type="hidden" id="f_referenceType" name="referenceType">
+            <input type="hidden" id="f_referenceName" name="referenceName">
+            <input type="hidden" id="f_referenceDescription" name="referenceDescription">
+
+            <hr class="border-light" />
+            <input class="toggle" type="submit" value="(1): Set purchase item" onclick="setPurchaseItem(event);" />
+            <input class="toggle submit2" type="submit" value="(1): Set fabrication item" onclick="setFabricationItem(event);" />
+            <input class="toggle submit3" type="submit" value="(1): Set assembly item" onclick="setAssemblyItem(event);" />
+            <input class="toggle submit4" type="submit" value="(2): Add item to list" onclick="setPricingListItems(event);" />
+
+            <datalist id="list_fabrication"></datalist>
+            <datalist id="list_purchase"></datalist>
+            <datalist id="list_assembly"></datalist>
+          </form>
+        </div>
+
+        <table id="t_items">
+          <caption id="cap_items">Pricing List Items</caption>
+          <thead>
+            <tr>
+              <th>Id</th>
+              <th>Item Ref. Id</th>
+              <th>Name</th>
+              <th>Description</th>
+              <th>Category</th>
+              <th>Fixed Price</th>
+              <th>Delete</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+
+      <div id="body_2" class="body" style="display: none;">
+        <div id="d_cust_add" class="subview-no-height h-30">
+          <form id="f_cust_add" autocomplete="off">
+            <div class="flex f-wrap fill-90">
+              <div class="col-2">
+                <label for="f_customer">Customer</label>
+                <input type="text" id="f_customer" name="customer" required list="list_customers" />
+              </div>
+            </div>
+
+            <hr class="border-light" />
+
+            <input class="toggle" type="submit" value="Add customer to list" />
+            <datalist id="list_customers"></datalist>
+          </form>
+        </div>
+
+        <table id="t_customers">
+          <caption id="cap_customers">Supported Customers List</caption>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Company</th>
+              <th>Type</th>
+              <th>Markup</th>
+              <th>Remove</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div id="pricingList_modal" class="modal">
+      <span id="pricingList_span" class="closeModal">&times;</span>
+      <h2 class="modalHeader">Pricing List Info</h2>
+      <div id="pricingList_body" class="modalBody"></div>
+    </div>
+  </body>
+</html>
+
+<script type="text/javascript" src="<<BASE_URL>>/js/main.js?<<CACHE>>"></script>
+<script type="text/javascript" src="<<BASE_URL>>/js/api.js?<<CACHE>>"></script>
+<script type="text/javascript" src="<<BASE_URL>>/js/pricing_list_view.js?<<CACHE>>"></script>
+<script src="https://kit.fontawesome.com/2f925bff07.js" crossorigin="anonymous"></script>

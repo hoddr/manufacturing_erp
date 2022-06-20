@@ -1,0 +1,33 @@
+upstream backend {
+  server 127.0.0.1:4000;
+}
+
+server {
+  listen 80 default_server;
+  listen [::]:80 default_server;
+  server_name erp.com www.erp.com;
+  return 301 https://$server_name$request_uri;
+}
+
+server {
+  listen 443 ssl;
+  server_name erp.com www.erp.com;
+  ssl_certificate /etc/letsencrypt/live/erp.com/fullchain.pem;
+  ssl_certificate_key /etc/letsencrypt/live/erp.com/privkey.pem;
+
+  # proxy
+  location / {
+    proxy_pass http://backend;
+    proxy_set_header Host $host;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_buffering off;
+
+    add_header Cache-Control private always;
+    add_header Content-Security-Policy "default-src 'self' https://use.fontawesome.com 'unsafe-inline'; script-src 'self' https://use.fontawesome.com 'unsafe-inline'; style-src 'self' https://use.fontawesome.com 'unsafe-inline';" always;
+    add_header Referrer-Policy strict-origin-when-cross-origin always;
+    add_header Strict-Transport-Security "max-age=31536000; includeSubDomains; preload" always;
+    add_header X-Content-Type-Options nosniff always;
+    add_header X-Frame-Options SAMEORIGIN always;
+    add_header X-XSS-Protection 1 always;
+  }
+}

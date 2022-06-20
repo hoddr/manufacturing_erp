@@ -1,0 +1,2 @@
+#!/bin/bash
+psql -d $ERP_PB_DBNAME

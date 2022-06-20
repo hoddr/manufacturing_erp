@@ -1,0 +1,3 @@
+#!/bin/bash
+
+cabal haddock --haddock-internal --enable-documentation erp

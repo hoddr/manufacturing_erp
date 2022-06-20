@@ -1,0 +1,5 @@
+-- options for production
+with-compiler: /root/.ghcup/bin/ghc
+optimization: 2
+package *
+  ghc-options: -j

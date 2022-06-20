@@ -1,0 +1,3 @@
+#!/bin/bash
+
+scp -v -3 -r time_study:/home/erp/code/dist-newstyle erp:~/temp

@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width: device-width", initial-scale=1>
+    <title>INVENTORY - ERP</title>
+    <link rel="stylesheet" type="text/css" href="<<BASE_URL>>/css/main.css?<<CACHE>>" />
+    <link rel="icon" type="image/x-icon" href="<<BASE_URL>>/favicon.ico" />
+  </head>
+  <body>
+    <div id="navbar" class="header flex f-row f-wrap f-center">
+    </div>
+
+    <div id="sidebar" class="sidebar flex f-col f-center">
+    </div>
+
+    <div class="content">
+      <div class="pinfo flex f-row f-wrap f-center">
+        <h1>ERP - INVENTORY</h1>
+        <div class="flex f-wrap f-left">
+          <div class="controls col-1">
+            <button class="toggle" onclick="mainOpen();">Main view</button>
+          </div>
+          <div class="controls col-1">
+            <button class="toggle" onclick="updateListQS(listInventory, event);">(?) Update query</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="body">
+        <div id="t_inventory" style="display: none;">
+          <div class="subview">
+            <form id="f_pag_form" autocomplete="off">
+              <div class="flex f-wrap fill-90">
+                <div class="col-4">
+                  <label for="qs_search">Search (on *Columns only)</label>
+                  <input type="text" id="qs_search" name="search" value="" />
+                </div>
+
+                <div class="col-4">
+                  <label for="qs_limit">#/page PER TYPE</label>
+                  <input type="number" id="qs_limit" name="limit" min="1" step="1" required value="100" />
+                </div>
+
+                <div class="col-4">
+                  <label for="qs_offset">Page #</label>
+                  <input type="number" id="qs_offset" name="offset" min="1" step="1" required value="1" />
+                </div>
+              </div>
+              <input type="submit" style="display: none;" value="Update query" />
+            </form>
+          </div>
+          <table>
+            <caption id="cap_inventory">Inventory Master List</caption>
+            <thead>
+              <tr>
+                <th>Id</th>
+                <th>Type</th>
+                <th>*Name</th>
+                <th>On Hand</th>
+                <th>On Order</th>
+                <th>Reorder Point</th>
+                <th>Edit</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+
+        <!-- edit form -->
+        <div id="d_sub_edit_form" class="subview" style="display: none;">
+          <form id="f_edit_inventory" autocomplete="off">
+            <div class="flex f-wrap fill-90">
+              <h3 id="cap_current"></h3>
+            </div>
+
+            <div class="flex f-wrap fill-90">
+              <div class="col-3">
+                <label for="f_onHandEdit">On hand</label>
+                <input type="number" id="f_onHandEdit" name="onHand" required minimum="0.00",
+                                                                              step="0.01" />
+              </div>
+
+              <div class="col-3">
+                <label for="f_onOrderEdit">On order</label>
+                <input type="number" id="f_onOrderEdit" name="onOrder" required minimum="0.00",
+                                                                              step="0.01" />
+              </div>
+
+              <div class="col-3">
+                <label for="f_minOnHandEdit">Min. on hand</label>
+                <input type="number" id="f_minOnHandEdit" name="minOnHand" required minimum="0.00",
+                                                                              step="0.01" />
+              </div>
+
+            </div>
+
+            <input type="hidden" id="f_idEdit" name="id" />
+            <input type="hidden" id="f_typeEdit" name="type" />
+            <input type="hidden" id="f_refIdEdit" name="referenceId" />
+
+            <hr class="border-light" />
+            <input class="toggle" type="submit" value="Edit inventory" />
+          </form>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
+
+<script type="text/javascript" src="<<BASE_URL>>/js/main.js?<<CACHE>>"></script>
+<script type="text/javascript" src="<<BASE_URL>>/js/api.js?<<CACHE>>"></script>
+<script type="text/javascript" src="<<BASE_URL>>/js/inventory_view.js?<<CACHE>>"></script>
+<script src="https://kit.fontawesome.com/2f925bff07.js" crossorigin="anonymous"></script>

@@ -1,0 +1,35 @@
+FROM debian:buster
+WORKDIR /build
+ENV BOOTSTRAP_HASKELL_NONINTERACTIVE=1
+ENV BOOTSTRAP_HASKELL_GHC_VERSION=8.10.4
+ENV BOOTSTRAP_HASKELL_CABAL_VERSION=3.4.0.0
+RUN apt-get update \
+  && apt-get -y --no-install-recommends install \
+    build-essential \
+    ca-certificates \
+    curl \
+    wget \
+    libffi-dev \
+    libffi6 \
+    libgmp-dev \
+    libgmp10 \
+    libncurses-dev \
+    libncurses5 \
+    libtinfo5 \
+    zlib1g-dev \
+    lsb-release \
+    gnupg \
+  && sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list' \
+  && wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add - \
+  && apt-get update \
+  && apt-get -y --no-install-recommends install \
+    postgresql-13 \
+    libpq5 \
+    libpq-dev \
+  && rm -rf /var/lib/apt \
+  && curl --proto '=https' --tlsv1.2 -sSf https://get-ghcup.haskell.org | sh
+ENV PATH=$PATH:~/.ghcup/bin
+COPY base_files/ /build/
+RUN pwd \
+  && /root/.ghcup/bin/cabal update \
+  && /root/.ghcup/bin/cabal build

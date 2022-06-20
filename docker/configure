@@ -1,0 +1,14 @@
+#!/bin/bash
+
+rm -rf base_files
+mkdir -p base_files/src
+mkdir -p base_files/tests
+mkdir -p base_files/app
+cp ../erp.cabal base_files/.
+cp cabal.project.prod base_files/cabal.project.local
+cp ../Setup.hs base_files/.
+cp -r ../src/* base_files/src/.
+cp -r ../tests/* base_files/tests/.
+cp -r ../app/* base_files/app/.
+cp ../LICENSE base_files/.
+sudo docker build -f Dockerfile.configure -t erp_base:latest .

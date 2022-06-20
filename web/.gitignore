@@ -1,0 +1,4 @@
+/node_modules/
+temp/*
+min/*
+yarn-error.log

@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width: device-width", initial-scale=1>
+    <title>CURB CO QUOTE - ERP</title>
+    <link rel="stylesheet" type="text/css" href="<<BASE_URL>>/css/main.css?<<CACHE>>" />
+    <link rel="icon" type="image/x-icon" href="<<BASE_URL>>/favicon.ico" />
+  </head>
+  <body>
+    <div id="navbar" class="header flex f-row f-wrap f-center">
+    </div>
+
+    <div id="sidebar" class="sidebar flex f-col f-center">
+    </div>
+
+    <div class="content">
+      <div class="pinfo flex f-row f-wrap f-center">
+        <h1>ERP - CURB CO QUOTE</h1>
+        <div class="flex f-wrap f-left">
+          <div class="controls col-1">
+            <button class="toggle" onclick="mainOpen();">Main view</button>
+          </div>
+          <div class="controls col-1">
+            <button class="toggle" onclick="openAddCurb(event);">(+) Add curb</button>
+          </div>
+          <div class="controls col-1">
+            <button class="toggle" onclick="genReport(event);">Generate quote</button>
+          </div>
+          <div class="controls col-1">
+            <button class="toggle" onclick="openToOrder(event);">To order (FC)</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="body">
+        <table id="t_curbs">
+          <caption id="cap_curbs">CC Quote Curbs</caption>
+          <thead>
+            <tr>
+              <th>Id</th>
+              <th>Quantity</th>
+              <th>Size</th>
+              <th>Old Unit/Bottom</th>
+              <th>New Unit/Top</th>
+              <th>Adapter</th>
+              <th>Price Each (with markup)</th>
+              <th>Metal</th>
+              <th>Metal Weight (lbs)</th>
+              <th>Gasket (ft)</th>
+              <th>Edit</th>
+              <th>Delete</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+
+        <div id="d_sub_add_form" class="subview" style="display: none;">
+          <form id="f_curb" autocomplete="off">
+            <div class="flex f-wrap fill-90">
+              <div class="col-3">
+                <label for="f_quantity">Quantity</label>
+                <input type="number" id="f_quantity" name="quantity" min="0" step="1" required />
+              </div>
+
+              <div class="col-3">
+                <label for="f_basePriceEach">Price Each ($) (Enter base price)</label>
+                <input type="number" id="f_basePriceEach" name="basePriceEach" min="0.00" step="0.01" required />
+              </div>
+
+              <div class="col-3">
+                <label for="f_size">Curb Size (S, M, L)</label>
+                <select id="f_size" name="size">
+                  <option value="S">Small (S)</option>
+                  <option value="M">Medium (M)</option>
+                  <option value="L">Large (L)</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="flex f-wrap fill-90">
+              <div class="col-3">
+                <label for="f_oldUnit">Old Unit/Bottom</label>
+                <input type="text" id="f_oldUnit" name="oldUnit" required />
+              </div>
+
+              <div class="col-3">
+                <label for="f_newUnit">New Unit/Top</label>
+                <input type="text" id="f_newUnit" name="newUnit" required />
+              </div>
+
+              <div class="col-3">
+                <label for="f_adapter">Adapter</label>
+                <input type="text" id="f_adapter" name="adapter" required />
+              </div>
+            </div>
+
+            <div class="flex f-wrap fill-90">
+              <div class="col-3">
+                <label for="f_metal">Metal</label>
+                <input type="text" id="f_metal" name="metal" required list="metal_list" />
+              </div>
+
+              <div class="col-3">
+                <label for="f_metalWeight">Metal Weight (lbs)</label>
+                <input type="number" id="f_metalWeight" name="metalWeight" required min="0.00" step="0.01" />
+              </div>
+
+              <div class="col-3">
+                <label for="f_gasketFeet">Feet of Gasket</label>
+                <input type="number" id="f_gasketFeet" name="gasketFeet" required min="0.00" step="0.01" />
+              </div>
+            </div>
+
+            <input type="hidden" id="f_metalId" name="metalId" />
+
+            <hr class="border-light" />
+            <input class="toggle" type="submit" value="Append curb" />
+
+            <datalist id="metal_list"></datalist>
+          </form>
+        </div>
+
+        <div id="d_sub_edit_form" class="subview" style="display: none;">
+          <form id="f_edit_curb" autocomplete="off">
+            <div class="flex f-wrap fill-90">
+              <div class="col-3">
+                <label for="f_quantityEdit">Quantity</label>
+                <input type="number" id="f_quantityEdit" name="quantity" min="0" step="1" required />
+              </div>
+
+              <div class="col-3">
+                <label for="f_basePriceEachEdit">Price Each ($) (Enter corrected base price)</label>
+                <input type="number" id="f_basePriceEachEdit" name="basePriceEach" min="0.00" step="0.01" required />
+              </div>
+
+              <div class="col-3">
+                <label for="f_sizeEdit">Curb Size (S, M, L)</label>
+                <select id="f_sizeEdit" name="size">
+                  <option value="S">Small (S)</option>
+                  <option value="M">Medium (M)</option>
+                  <option value="L">Large (L)</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="flex f-wrap fill-90">
+              <div class="col-3">
+                <label for="f_oldUnitEdit">Old Unit/Bottom</label>
+                <input type="text" id="f_oldUnitEdit" name="oldUnit" required />
+              </div>
+
+              <div class="col-3">
+                <label for="f_newUnitEdit">New Unit/Top</label>
+                <input type="text" id="f_newUnitEdit" name="newUnit" required />
+              </div>
+
+              <div class="col-3">
+                <label for="f_adapterEdit">Adapter</label>
+                <input type="text" id="f_adapterEdit" name="adapter" required />
+              </div>
+            </div>
+
+            <div class="flex f-wrap fill-90">
+              <div class="col-3">
+                <label for="f_metalEdit">Metal</label>
+                <input type="text" id="f_metalEdit" name="metal" required list="metal_listEdit" />
+              </div>
+
+              <div class="col-3">
+                <label for="f_metalWeightEdit">Metal Weight (lbs)</label>
+                <input type="number" id="f_metalWeightEdit" name="metalWeight" required min="0.00" step="0.01" />
+              </div>
+
+              <div class="col-3">
+                <label for="f_gasketFeetEdit">Feet of Gasket</label>
+                <input type="number" id="f_gasketFeetEdit" name="gasketFeet" required min="0.00" step="0.01" />
+              </div>
+            </div>
+
+            <input type="hidden" id="f_metalIdEdit" name="metalId" />
+            <input type="hidden" id="f_idEdit" name="id" />
+
+            <hr class="border-light" />
+            <input class="toggle" type="submit" value="Edit curb" />
+            <datalist id="metal_listEdit"></datalist>
+          </form>
+        </div>
+
+        <div id="d_sub_order_form" class="subview" style="display: none;">
+          <form id="f_quote_to_order" autocomplete="off">
+            <div class="flex f-wrap fill-90">
+              <h3 id="cap_toOrder"></h3>
+            </div>
+
+            <div class="flex f-wrap fill-90">
+              <div class="col-2">
+                <label for="f_ordNumber">Order Number</label>
+                <input type="text" id="f_ordNumber" name="ordNumber" required />
+              </div>
+
+              <div class="col-2">
+                <label for="f_ordPo">Order PO</label>
+                <input type="text" id="f_ordPo" name="ordPo" required />
+              </div>
+            </div>
+
+            <hr class="border-light" />
+            <input class="toggle" type="submit" value="Create order from quote" />
+          </form>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
+
+<script type="text/javascript" src="<<BASE_URL>>/js/main.js?<<CACHE>>"></script>
+<script type="text/javascript" src="<<BASE_URL>>/js/api.js?<<CACHE>>"></script>
+<script type="text/javascript" src="<<BASE_URL>>/js/cc_quote_view.js?<<CACHE>>"></script>
+<script src="https://kit.fontawesome.com/2f925bff07.js" crossorigin="anonymous"></script>

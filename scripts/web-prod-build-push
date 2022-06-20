@@ -1,0 +1,16 @@
+#!/bin/bash
+# to be run from top-level dir, NOT from within the scripts folder
+
+ERP_PB_BASE_URL="https://erp.com"
+
+./web-build
+scp -r ./web/min erp:~/web_temp
+ssh -t erp "/bin/bash -s << EOF
+  cd /home/erp
+  rm -r web/min
+  mv web_temp web/min
+EOF"
+
+ERP_PB_BASE_URL="http://localhost:4000"
+
+./web-build

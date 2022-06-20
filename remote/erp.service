@@ -1,0 +1,16 @@
+[Unit]
+Description=ERP Service
+After=network.target
+
+[Service]
+Type=Simple
+User=erp
+ExecStart=/home/erp/dist-newstyle/build/x86_64-linux/ghc-8.10.4/erp-0.1.0.0/x/erp/opt/build/erp/erp
+Restart=on-failure
+RestartSec=30
+TimeoutSec=30
+EnvironmentFile=/etc/environment
+WorkingDirectory=/home/erp
+
+[Install]
+WantedBy=multi-user.target
