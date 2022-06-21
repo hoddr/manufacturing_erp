@@ -1,4 +1,4 @@
 #!/bin/bash
 
-cabal build --haddock-internal --enable-documentation
+cabal build 
 ./web-build
