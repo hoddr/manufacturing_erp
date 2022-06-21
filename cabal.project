@@ -1,0 +1,28 @@
+-- linux
+-- library-vanilla: False
+-- executable-dynamic: True
+-- shared: True
+
+-- local
+-- ignore-project: False
+-- tests: False
+-- coverage: False
+-- library-for-ghci: True
+-- documentation: True
+-- haddock-html: True
+-- haddock-hoogle: False
+--
+-- package *
+--   ghc-options: -j +RTS -A128m -n2m -RTS
+--
+-- program-options
+--   ghc-options: -j +RTS -A128m -n2m -RTS
+
+-- production (1 job for memory constraints...)
+packages: erp.cabal
+package *
+
+optimization: 2
+jobs: 1
+executable-stripping: True
+library-stripping: True

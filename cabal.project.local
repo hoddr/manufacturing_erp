@@ -1,17 +1,22 @@
+-- linux
 -- library-vanilla: False
 -- executable-dynamic: True
 -- shared: True
 
+-- local
 ignore-project: False
 tests: False
 coverage: False
-optimization: 0
+haddock-hoogle: False
+haddock-internal: True
+haddock-html: True
+library-for-ghci: True
 
 package *
   ghc-options: -j +RTS -A128m -n2m -RTS
+  documentation: True
 
 program-options
   ghc-options: -j +RTS -A128m -n2m -RTS
 
--- for production, comment out rest
--- jobs: 1
+optimization: 0
